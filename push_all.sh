@@ -8,4 +8,4 @@ for remote in "${remotes[@]}"; do
     git push "$remote" main  # Change 'main' to your branch name if needed
 done
 
-#if no error means successful push
+#if no error means a successful push
