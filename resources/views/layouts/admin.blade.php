@@ -91,7 +91,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="add-brand.html" class="">
+                                            <a href="{{ route('admin.brand_add') }}" class="">
                                                 <div class="text">New Brand</div>
                                             </a>
                                         </li>
@@ -473,13 +473,12 @@
                     <div class="main-content">
                         @yield('content')
 
-                    </div>
-                    <div class="bottom-page">
-                        <div class="body-text" style="padding-top:2rem">
-                            Copyright © <span id="year"></span> Codewand Technologies
+                        <div class="bottom-page">
+                            <div class="body-text" style="padding-top:2rem">
+                                Copyright © <span id="year"></span> Codewand Technologies
+                            </div>
                         </div>
                     </div>
-
 
                 </div>
             </div>
