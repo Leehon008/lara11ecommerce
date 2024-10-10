@@ -89,9 +89,9 @@
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="{{ route('admin.product_delete', ['id' => $product->id]) }}"
+                                            <form action="{{ route('admin.product.delete', ['id' => $product->id]) }}"
                                                 method="POST">
-                                                @csrf
+                                                @csrf @method('DELETE')
                                                 <div class="item text-danger delete">
                                                     <i class="icon-trash-2"></i>
                                                 </div>

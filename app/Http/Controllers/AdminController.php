@@ -245,8 +245,8 @@ class AdminController extends Controller
 
         if ($request->hasFile('images')) {
             foreach (explode(',',$product->images) as $oFile) {
-                if (File::exists(public_path('uploads/products/thumbnails').'/'.$oFile)) {
-                    File::delete(public_path('uploads/products/thumbnails').'/'.$oFile);
+                if (File::exists(public_path('uploads/products').'/'.$oFile)) {
+                    File::delete(public_path('uploads/products').'/'.$oFile);
                 }
                 if (File::exists(public_path('uploads/products/thumbnails').'/'.$oFile)) {
                     File::delete(public_path('uploads/products/thumbnails').'/'.$oFile);
@@ -352,11 +352,23 @@ class AdminController extends Controller
     }
 
     public function delete_product($id) {
-        $product = Category::find($id);
-        $destinationPathThumbnail = public_path('uploads/products/thumbnails');
-        $destinationPath = public_path('uploads/products');
-            
+        $product = Product::find($id);
+        if (File::exists(public_path('uploads/products').'/'.$product->image)) {
+            File::delete(public_path('uploads/products').'/'.$product->image);
+        }
+        if (File::exists(public_path('uploads/products/thumbnails').'/'.$product->image)) {
+            File::delete(public_path('uploads/products/thumbnails').'/'.$product->image);
+        }
+
+         foreach (explode(',',$product->images) as $oFile) {
+            if (File::exists(public_path('uploads/products').'/'.$oFile)) {
+                File::delete(public_path('uploads/products').'/'.$oFile);
+            }
+            if (File::exists(public_path('uploads/products/thumbnails').'/'.$oFile)) {
+                File::delete(public_path('uploads/products/thumbnails').'/'.$oFile);
+            }
+        }
         $product->delete();
-        return redirect()->route('admin.products')->with('status','Category with id '.$product->id.'  has been deleted successfully');
+        return redirect()->route('admin.products')->with('status','Product with id '.$product->id.'  has been deleted successfully');
     }
 }
