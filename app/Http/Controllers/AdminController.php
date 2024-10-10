@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Laravel\Facades\Image;
 use App\Models\Brand; 
 use App\Models\Category; 
+use App\Models\Product; 
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -166,5 +167,10 @@ class AdminController extends Controller
         }
         $category->delete();
         return redirect()->route('admin.categories')->with('status','Category with id '.$category->id.'  has been deleted successfully');
+    }
+
+    public function products() {
+        $products = Product::orderby('id','Desc')->paginate(10);
+        return view('admin.products',compact('products'));
     }
 }
