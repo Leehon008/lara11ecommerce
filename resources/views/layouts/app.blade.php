@@ -316,7 +316,7 @@
                             <a href="index.html" class="navigation__link">Home</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="shop.html" class="navigation__link">Shop</a>
+                            <a href="{{ route('shop.index') }}" class="navigation__link">Shop</a>
                         </li>
                         <li class="navigation__item">
                             <a href="cart.html" class="navigation__link">Cart</a>
@@ -406,7 +406,7 @@
                             <a href="{{ route('home.index') }}" class="navigation__link">Home</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="shop.html" class="navigation__link">Shop</a>
+                            <a href="{{ route('shop.index') }}" class="navigation__link">Shop</a>
                         </li>
                         <li class="navigation__item">
                             <a href="cart.html" class="navigation__link">Cart</a>
@@ -527,13 +527,14 @@
                                 class="logo__image d-block" />
                         </a>
                     </div>
-                    <p class="footer-address">123 Beach Avenue, Surfside City, CA 00000</p>
-                    <p class="m-0"><strong class="fw-medium">contact@surfsidemedia.in</strong></p>
-                    <p><strong class="fw-medium">+1 000-000-0000</strong></p>
+                    <p class="footer-address">19804 Chitungwiza industry<br> Harare, Zimbabwe</p>
+                    <p class="m-0"><strong class="fw-medium">sales@bestforcreative.co.zw</strong></p>
+                    <p><strong class="fw-medium">+263 773 235 698</strong></p>
 
                     <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
                         <li>
-                            <a href="#" class="footer__social-link d-block">
+                            <a href="https://www.facebook.com/profile.php?id=100090048901997"
+                                class="footer__social-link d-block">
                                 <svg class="svg-icon svg-icon_facebook" width="9" height="15"
                                     viewBox="0 0 9 15" xmlns="http://www.w3.org/2000/svg">
                                     <use href="#icon_facebook" />
@@ -597,12 +598,8 @@
                     <ul class="sub-menu__list list-unstyled">
                         <li class="sub-menu__item"><a href="shop2.html" class="menu-link menu-link_us-s">New
                                 Arrivals</a></li>
-                        <li class="sub-menu__item"><a href="shop3.html"
-                                class="menu-link menu-link_us-s">Accessories</a></li>
-                        <li class="sub-menu__item"><a href="shop4.html" class="menu-link menu-link_us-s">Men</a></li>
-                        <li class="sub-menu__item"><a href="shop5.html" class="menu-link menu-link_us-s">Women</a>
-                        </li>
-                        <li class="sub-menu__item"><a href="shop1.html" class="menu-link menu-link_us-s">Shop All</a>
+                        <li class="sub-menu__item"><a href="{{ route('shop.index') }}"
+                                class="menu-link menu-link_us-s">Shop All</a>
                         </li>
                     </ul>
                 </div>
@@ -624,27 +621,17 @@
                         </li>
                     </ul>
                 </div>
-
-                <div class="footer-column footer-menu mb-4 mb-lg-0">
-                    <h6 class="sub-menu__title text-uppercase">Categories</h6>
-                    <ul class="sub-menu__list list-unstyled">
-                        <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shirts</a></li>
-                        <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Jeans</a></li>
-                        <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shoes</a></li>
-                        <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Bags</a></li>
-                        <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shop All</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
 
         <div class="footer-bottom">
             <div class="container d-md-flex align-items-center">
-                <span class="footer-copyright me-auto">©2024 Surfside Media</span>
+                <span class="footer-copyright me-auto"> Copyright © <span id="year"></span> Codewand
+                    Technologies Ltd</span>
                 <div class="footer-settings d-md-flex align-items-center">
                     <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a
-                        href="terms-conditions.html">Terms &amp;
+                        href="terms-conditions.html">Terms
+                        &amp;
                         Conditions</a>
                 </div>
             </div>
@@ -698,6 +685,9 @@
     <script nonce src="{{ asset('assets/js/plugins/swiper.min.js') }}"></script>
     <script nonce src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
     <script nonce src="{{ asset('assets/js/theme.js') }}"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
     @stack('scripts')
 </body>
 

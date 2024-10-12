@@ -247,7 +247,7 @@
 
                     </div>
                     <div class="cols gap10">
-                        <button class="tf-button w-full" type="submit">Add product</button>
+                        <button class="tf-button w-full" type="submit">Update product</button>
                     </div>
                 </div>
             </form>
