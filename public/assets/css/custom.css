@@ -17,3 +17,31 @@
 .form-floating>.form-select {
     height: 48px;
 }
+
+.service-checkboxes label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group {
+    position: relative;
+  }
+  
+  .form-group i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #667;
+    pointer-events: none;
+  }
+
+  

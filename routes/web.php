@@ -6,12 +6,28 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\QuotationsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+// Route::get('/', function () {
+//     return view('frontend.pages.home');
+// });
+Route::get('/about', function () {
+    return view('frontend.pages.about');
+});
+Route::get('/services', function () {
+    return view('frontend.pages.services');
+});
+Route::get('/contact-us', function () {
+    return view('frontend.pages.contact');
+});
+
+Route::get('/quotation',[QuotationsController::class, 'getQuote']);
+
 //shop routes
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->name('shop.product.details');
@@ -21,6 +37,7 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add_to_cart'])->name('cart.add');
 Route::put('/cart/increase-qty/{rowId}', [CartController::class, 'increase_cart_qty'])->name('cart.qty.increase');
 Route::put('/cart/decrease-qty/{rowId}', [CartController::class, 'decrease_cart_qty'])->name('cart.qty.decrease');
+Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item'])->name('cart.item.remove');
 
 
 Route::middleware(['auth'])->group( function () {
