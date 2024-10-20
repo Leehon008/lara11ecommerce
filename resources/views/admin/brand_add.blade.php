@@ -15,14 +15,14 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.brands') }}">
-                            <div class="text-tiny">Brands</div>
+                            <div class="text-tiny">Designs</div>
                         </a>
                     </li>
                     <li>
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <div class="text-tiny">New Brand</div>
+                        <div class="text-tiny">New Design</div>
                     </li>
                 </ul>
             </div>
@@ -32,7 +32,18 @@
                     enctype="multipart/form-data">
                     @csrf
                     <fieldset class="name">
-                        <div class="body-title">Brand Name <span class="tf-color-1">*</span></div>
+                        <div class="body-title">Design Category <span class="tf-color-1">*</span></div>
+                        <select name="category_id" required>
+                            <option readonly> Select Category</option>
+                            @foreach ($categories as $category)
+                            
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        
+                    </fieldset>
+                    <fieldset class="name">
+                        <div class="body-title">Design Name <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Brand name" name="name" tabindex="0"
                             value="{{ old('name') }}" aria-required="true" required="">
                         @error('name')
@@ -40,8 +51,8 @@
                         @enderror
                     </fieldset>
 
-                    <fieldset class="name">
-                        <div class="body-title">Brand Slug <span class="tf-color-1">*</span></div>
+                    <fieldset class="hidden">
+                        <div class="body-title">Design Slug Name <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Brand Slug" name="slug" tabindex="0"
                             value="{{ old('slug') }}" aria-required="true" required="">
                         @error('slug')

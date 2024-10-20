@@ -8,10 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Best For Creative') }}</title>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="author" content="Codewand technologies" />
+    <meta name="author" content="Codewand Technologies" />
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link
@@ -273,10 +273,33 @@
             </a>
 
             <div class="logo">
-                <a href="index.html">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
+                <a href="{{ url('/') }} ">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Best for Creative (BFC)" class="logo__image d-block" />
                 </a>
             </div>
+
+                    @guest
+                        <div class="header-tools__item hover-container">
+                            <a href="{{ route('login') }}" class="header-tools__item">
+                                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_user" />
+                                </svg>
+                            </a>
+                        </div>
+                    @else
+                        <div class="header-tools__item hover-container">
+                            <a href="{{ Auth::user()->utype === 'ADM' ? route('admin.index') : route('user.index') }}"
+                                class="header-tools__item">
+                                <span class="pr-6px"> {{ Auth::user()->name }}</span>
+                                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_user" />
+                                </svg>
+                            </a>
+                        </div>
+
+                    @endguest
 
             <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
                 <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -313,20 +336,23 @@
                 <div class="overflow-hidden">
                     <ul class="navigation__list list-unstyled position-relative">
                         <li class="navigation__item">
-                            <a href="index.html" class="navigation__link">Home</a>
+                            <a href="{{ url('/') }}" class="navigation__link">Home</a>
                         </li>
+                        <li class="navigation__item">
+                            <a href="{{ url('/about') }} " class="navigation__link">About Us</a>
+                        </li>
+                        <li class="navigation__item">
+                        <a href="{{ url('/services') }}" class="navigation__link">Services</a>
+                    </li>
                         <li class="navigation__item">
                             <a href="{{ route('shop.index') }}" class="navigation__link">Shop</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="{{ route('cart.index') }}" class="navigation__link">Cart</a>
+                            <a href="{{ url('/contact-us') }}" class="navigation__link">Contact Us</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="about.html" class="navigation__link">About</a>
-                        </li>
-                        <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link">Contact</a>
-                        </li>
+                        <a href="{{ url('/quotation') }}" class="navigation__link btn btn-danger">Get Quotation</a>
+                    </li>
                     </ul>
                 </div>
             </div>
@@ -395,7 +421,7 @@
             <div class="header-desk header-desk_type_1">
                 <div class="logo">
                     <a href="{{ route('home.index') }}">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo"
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Best for Creative (BFC)"
                             class="logo__image d-block" />
                     </a>
                 </div>
@@ -403,21 +429,23 @@
                 <nav class="navigation">
                     <ul class="navigation__list list-unstyled d-flex">
                         <li class="navigation__item">
-                            {{-- <a href="{{ url('/') }}" class="navigation__link">Home</a> --}}
-                            <a href="{{ route('home.index') }}" class="navigation__link">Home</a>
+                            <a href="{{ url('/') }}" class="navigation__link">Home</a>
                         </li>
+                        <li class="navigation__item">
+                            <a href="{{ url('/about') }} " class="navigation__link">About Us</a>
+                        </li>
+                        <li class="navigation__item">
+                        <a href="{{ url('/services') }}" class="navigation__link">Services</a>
+                    </li>
                         <li class="navigation__item">
                             <a href="{{ route('shop.index') }}" class="navigation__link">Shop</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="{{ route('cart.index') }}" class="navigation__link">Cart</a>
+                            <a href="{{ url('/contact-us') }}" class="navigation__link">Contact Us</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="{{ url('about') }}" class="navigation__link">About</a>
-                        </li>
-                        <li class="navigation__item">
-                            <a href="{{ url('contact-us') }}" class="navigation__link">Contact</a>
-                        </li>
+                        <a href="{{ url('/quotation') }}" class="navigation__link btn btn-danger">Get Quotation</a>
+                    </li>
                     </ul>
                 </nav>
 
@@ -450,21 +478,8 @@
 
                                 <div class="search-popup__results">
                                     <div class="sub-menu search-suggestion">
-                                        <h6 class="sub-menu__title fs-base">Quicklinks</h6>
-                                        <ul class="sub-menu__list list-unstyled">
-                                            <li class="sub-menu__item"><a href="shop2.html"
-                                                    class="menu-link menu-link_us-s">New Arrivals</a>
-                                            </li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Dresses</a></li>
-                                            <li class="sub-menu__item"><a href="shop3.html"
-                                                    class="menu-link menu-link_us-s">Accessories</a>
-                                            </li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Footwear</a></li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Sweatshirt</a></li>
-                                        </ul>
+                                        <h6 class="sub-menu__title fs-base"></h6>
+                                        
                                     </div>
 
                                     <div class="search-result row row-cols-5"></div>
@@ -496,12 +511,6 @@
 
                     @endguest
 
-                    <a href="wishlist.html" class="header-tools__item">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <use href="#icon_heart" />
-                        </svg>
-                    </a>
 
                     <a href="{{ route('cart.index') }}" class="header-tools__item header-tools__cart">
                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"

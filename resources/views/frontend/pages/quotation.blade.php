@@ -69,6 +69,7 @@
                                         <option value="Karoi">Karoi</option>
                                         <option value="Kariba">Kariba</option>
                                         <option value="Norton">Norton</option>
+                                        <option value="Nyabira">Nyabira</option>
                                         <option value="Chegutu">Chegutu</option>
                                         <option value="Kadoma">Kadoma</option>
                                         <option value="Banket">Banket</option>

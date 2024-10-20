@@ -43,16 +43,16 @@
                     <fieldset class="name">
                         <div class="body-title">Category Description <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Category Description" name="description"
-                            tabindex="0" value="{{ old('description') }}" aria-required="true" required="">
+                            tabindex="0"  value="{{ old('description') }}" aria-required="true" required="">
                         @error('description')
                             <span class="alert alert-danger text-center">{{ $message }} </span>
                         @enderror
                     </fieldset>
 
-                    <fieldset class="name">
+                    <fieldset class="name hidden">
                         <div class="body-title">Category Slug <span class="tf-color-1">*</span></div>
-                        <input class="flex-grow" type="text" placeholder="Category Slug" name="slug" tabindex="0"
-                            value="{{ old('slug') }}" aria-required="true" required="">
+                        <input class="flex-grow" readonly type="text" placeholder="Category Slug" name="slug" tabindex="0"
+                            value="{{ old('slug') }}">
                         @error('slug')
                             <span class="alert alert-danger text-center">{{ $message }} </span>
                         @enderror

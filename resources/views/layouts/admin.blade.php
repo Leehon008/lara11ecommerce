@@ -8,10 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Best for Creative') }}</title>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="author" content="Codewand technologies" />
+    <meta name="author" content="Codewand Technologies" />
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/animate.min.css') }}">
@@ -21,8 +21,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('font/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('icon/style.css') }}">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
-    <link rel="apple-touch-icon-precomposed" href="{{ asset('images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('assets/images/favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     @stack('styles');
@@ -44,9 +44,9 @@
                     <div class="box-logo">
                         <a href="{{ route('admin.index') }}" id="site-logo-inner">
                             <img class="" id="logo_header1" alt=""
-                                src="{{ asset('images/logo/logo.png') }}"
-                                data-light="{{ asset('images/logo/logo.png') }}"
-                                data-dark="{{ asset('images/logo/logo.png') }}">
+                                src="{{ asset('assets/images/logo.png') }}"
+                                data-light="{{ asset('assets/images/logo.png') }}"
+                                data-dark="{{ asset('assets/images/logo.png') }}">
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -87,24 +87,6 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-layers"></i></div>
-                                        <div class="text">Brand</div>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('admin.brand_add') }}" class="">
-                                                <div class="text">New Brand</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('admin.brands') }}" class="">
-                                                <div class="text">Brands</div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item has-children">
-                                    <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><i class="icon-layers"></i></div>
                                         <div class="text">Category</div>
                                     </a>
                                     <ul class="sub-menu">
@@ -120,7 +102,25 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                <li class="menu-item has-children">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><i class="icon-layers"></i></div>
+                                        <div class="text">Products Designs</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.brand_add') }}" class="">
+                                                <div class="text">New Design</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.brands') }}" class="">
+                                                <div class="text">Designs</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-file-plus"></i></div>
@@ -140,29 +140,29 @@
                                     </ul>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="slider.html" class="">
+                                    <a href="{{ route('admin.promotion') }}" class="">
                                         <div class="icon"><i class="icon-image"></i></div>
-                                        <div class="text">Slider</div>
+                                        <div class="text">Promotions</div>
                                     </a>
                                 </li>
-                                <li class="menu-item">
+                                <!-- <li class="menu-item">
                                     <a href="coupons.html" class="">
                                         <div class="icon"><i class="icon-grid"></i></div>
                                         <div class="text">Coupons</div>
                                     </a>
-                                </li>
+                                </li> -->
 
                                 <li class="menu-item">
-                                    <a href="users.html" class="">
+                                    <a href="{{ route('admin.users') }}" class="">
                                         <div class="icon"><i class="icon-user"></i></div>
-                                        <div class="text">User</div>
+                                        <div class="text">Users | Accounts</div>
                                     </a>
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="settings.html" class="">
-                                        <div class="icon"><i class="icon-settings"></i></div>
-                                        <div class="text">Settings</div>
+                                    <a href="{{ route('admin.quotations') }}" class="">
+                                        <div class="icon"><i class="icon-layers"></i></div>
+                                        <div class="text">Quotations Pricing</div>
                                     </a>
                                 </li>
 
@@ -187,9 +187,9 @@
                             <div class="header-left">
                                 <a href="index-2.html">
                                     <img class="" id="logo_header_mobile" alt=""
-                                        src="{{ asset('images/logo/logo.png') }}" data-light="images/logo/logo.png"
-                                        data-dark="{{ asset('images/logo/logo.png') }}" data-width="154px"
-                                        data-height="52px" data-retina="{{ asset('images/logo/logo.png') }}">
+                                        src="{{ asset('assets/images/logo.png') }}" data-light="assets/images/logo.png"
+                                        data-dark="{{ asset('assets/images/logo.png') }}" data-width="154px"
+                                        data-height="52px" data-retina="{{ asset('assets/images/logo.png') }}">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>
@@ -328,87 +328,17 @@
                             </div>
                             <div class="header-grid">
 
-                                <div class="popup-wrap message type-header">
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span class="header-item">
-                                                <span class="text-tiny">1</span>
-                                                <i class="icon-bell"></i>
-                                            </span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end has-content"
-                                            aria-labelledby="dropdownMenuButton2">
-                                            <li>
-                                                <h6>Notifications</h6>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-1">
-                                                    <div class="image">
-                                                        <i class="icon-noti-1"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Discount available</div>
-                                                        <div class="text-tiny">Morbi sapien massa, ultricies at rhoncus
-                                                            at, ullamcorper nec diam</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-2">
-                                                    <div class="image">
-                                                        <i class="icon-noti-2"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Account has been verified</div>
-                                                        <div class="text-tiny">Mauris libero ex, iaculis vitae rhoncus
-                                                            et</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-3">
-                                                    <div class="image">
-                                                        <i class="icon-noti-3"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Order shipped successfully</div>
-                                                        <div class="text-tiny">Integer aliquam eros nec sollicitudin
-                                                            sollicitudin</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-4">
-                                                    <div class="image">
-                                                        <i class="icon-noti-4"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Order pending: <span>ID 305830</span>
-                                                        </div>
-                                                        <div class="text-tiny">Ultricies at rhoncus at ullamcorper
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li><a href="#" class="tf-button w-full">View all</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-
-
-
+                                
                                 <div class="popup-wrap user type-header">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="header-user wg-user">
                                                 <span class="image">
-                                                    <img src="images/avatar/user-1.png" alt="">
+                                                    <img src="{{ asset('assets/images/favicon.ico') }}" alt="Admin">
                                                 </span>
                                                 <span class="flex flex-column">
-                                                    <span class="body-title mb-2">Kristin Watson</span>
+                                                    <!-- <span class="body-title mb-2">{{ Auth::user()->name }}</span> -->
                                                     <span class="text-tiny">Admin</span>
                                                 </span>
                                             </span>

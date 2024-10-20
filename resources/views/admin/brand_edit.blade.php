@@ -34,6 +34,19 @@
                     @method('PUT')
                     <input type="text" name="id" id="id" hidden value="{{ $brand->id }}" />
                     <fieldset class="name">
+                        <div class="body-title">Design Category <span class="tf-color-1">*</span></div>
+                        <select name="category_id" required>
+                            <option readonly>Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" 
+                                    @if($brand->category_id == $category->id) selected @endif>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </fieldset>
+                    
+                    <fieldset class="name">
                         <div class="body-title">Brand Name <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Brand name" name="name" tabindex="0"
                             value="{{ $brand->name }}" aria-required="true" required="">

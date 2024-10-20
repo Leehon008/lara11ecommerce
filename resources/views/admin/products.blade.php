@@ -45,13 +45,10 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Price</th>
-                                <th>SalePrice</th>
-                                <th>SKU</th>
+                                <th>SalePrice</th> 
                                 <th>Category</th>
                                 <th>Brand</th>
-                                <th>Featured</th>
-                                <th>Stock</th>
-                                <th>Quantity</th>
+                                <th>Featured</th> 
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -66,17 +63,14 @@
                                         </div>
                                         <div class="name">
                                             <a href="#" class="body-title-2">{{ $product->name }}</a>
-                                            <div class="text-tiny mt-3">{{ $product->slug }}</div>
+                                            {{-- <div class="text-tiny mt-3">{{ $product->slug }}</div> --}}
                                         </div>
                                     </td>
                                     <td>{{ $product->regular_price }}</td>
-                                    <td>{{ $product->sale_price }}</td>
-                                    <td>{{ $product->SKU }}</td>
-                                    <td>{{ $product->category->name }}</td>
+                                    <td>{{ $product->sale_price }}</td> 
+                                    <td>{{ $product->brand->category->name }}</td>
                                     <td>{{ $product->brand->name }}</td>
-                                    <td>{{ $product->featured == 0 ? 'no' : 'yes' }}</td>
-                                    <td>{{ $product->stock_status }}</td>
-                                    <td>{{ $product->quantity }}</td>
+                                    <td>{{ $product->featured == 0 ? 'no' : 'yes' }}</td> 
                                     <td>
                                         <div class="list-icon-function">
                                             <a href="#" target="_blank">

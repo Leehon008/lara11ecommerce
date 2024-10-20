@@ -29,7 +29,7 @@
                                         <i class="icon-dollar-sign"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Total Amount</div>
+                                        <div class="body-text mb-2">Total Sales</div>
                                         <h4>481.34</h4>
                                     </div>
                                 </div>
@@ -56,11 +56,11 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
                                     <div class="image ic-bg">
-                                        <i class="icon-dollar-sign"></i>
+                                        <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Pending Orders Amount</div>
-                                        <h4>481.34</h4>
+                                        <div class="body-text mb-2">Categories</div>
+                                        <h4>{{ $categoryCount }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -77,8 +77,8 @@
                                         <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Delivered Orders</div>
-                                        <h4>0</h4>
+                                        <div class="body-text mb-2">Products</div>
+                                        <h4>{{ $productCount }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -92,8 +92,8 @@
                                         <i class="icon-dollar-sign"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Delivered Orders Amount</div>
-                                        <h4>0.00</h4>
+                                        <div class="body-text mb-2">Designs</div>
+                                        <h4>{{ $brandCount }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -107,8 +107,8 @@
                                         <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Canceled Orders</div>
-                                        <h4>0</h4>
+                                        <div class="body-text mb-2">Users</div>
+                                        <h4>{{ $userCount }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -122,8 +122,8 @@
                                         <i class="icon-dollar-sign"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Canceled Orders Amount</div>
-                                        <h4>0.00</h4>
+                                        <div class="body-text mb-2">Todays Orders</div>
+                                        <h4>4</h4>
                                     </div>
                                 </div>
                             </div>

@@ -31,6 +31,30 @@
                             </div>
                             <div class="pb-3"></div>
                             <div class="form-floating mb-3">
+                                <input class="form-control form-control_gray @error('surname') is-invalid @enderror"
+                                    name="surname" value="{{ old('surname') }}" required="" autocomplete="name"
+                                    autofocus="">
+                                <label for="surname">Surname</label>
+                                @error('surname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="pb-3"></div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control form-control_gray @error('address') is-invalid @enderror"
+                                    name="address" value="{{ old('address') }}"  autocomplete="name"
+                                    autofocus="">
+                                <label for="address">Delivery Address <i>(Optional)</i></label>
+                                @error('address')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="pb-3"></div>
+                            <div class="form-floating mb-3">
                                 <input id="email" type="email"
                                     class="form-control form-control_gray @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" required="" autocomplete="email">

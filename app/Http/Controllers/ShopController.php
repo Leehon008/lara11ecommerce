@@ -10,14 +10,16 @@ use App\Models\Brand;
 use App\Models\Category; 
 use App\Models\Product; 
 use Carbon\Carbon;
+use App\Models\Promotion;
 
 class ShopController extends Controller
 {
     public function index() {
+        $promotions = Promotion::all();
         $products = Product::orderBy('created_at','DESC')->paginate(10);
         $brands = Brand::orderBy('created_at','DESC')->paginate(10);
         $categories = Category::orderBy('created_at','DESC')->paginate(10);
-        return view('shop',compact('products','brands','categories'));
+        return view('shop',compact('products','brands','categories','promotions'));
     }
 
     public function product_details($product_slug) {

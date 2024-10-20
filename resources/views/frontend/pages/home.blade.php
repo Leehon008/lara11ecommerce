@@ -266,185 +266,87 @@
                     SHOP
                 </h2>
 
-                <div class="row">
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
-                            <div class="pc__img-wrapper">
-                                <a href="details.html">
-                                    <img loading="lazy" src="{{ asset('assets/images/services-02.jpg') }}"
-                                        width="330" height="400" alt="Best for Creative" class="pc__img" />
-                                </a>
-                            </div>
-
-                            <div class="pc__info position-relative">
-                                <h6 class="pc__title">
-                                    <a href="details.html">Sliding Gate</a>
-                                </h6>
-                                <div class="product-card__price d-flex align-items-center">
-                                    <span class="money price text-secondary">$101</span>
+                <div class="products-grid row row-cols-2 row-cols-md-3" id="products-grid">
+                    @foreach ($fProducts as $product)
+                        <div class="product-card-wrapper">
+                            <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+                                <div class="pc__img-wrapper">
+                                    <div class="swiper-container background-img js-swiper-slider"
+                                        data-settings='{"resizeObserver": true}'>
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <a
+                                                    href="{{ route('shop.product.details', ['product_slug' => $product->slug]) }}"><img
+                                                        loading="lazy"
+                                                        src="{{ asset('uploads/products') }}/{{ $product->image }}"
+                                                        width="330" height="400" alt="{{ $product->name }}"
+                                                        class="pc__img"></a>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                @foreach (explode(',', $product->images) as $img)
+                                                    <a
+                                                        href="{{ route('shop.product.details', ['product_slug' => $product->slug]) }}"><img
+                                                            loading="lazy"
+                                                            src="{{ asset('uploads/products') }}/{{ $img }}"
+                                                            width="330" height="400" alt="{{ $product->name }}"
+                                                            class="pc__img"></a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <use href="#icon_prev_sm" />
+                                            </svg></span>
+                                        <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <use href="#icon_next_sm" />
+                                            </svg></span>
+                                    </div>
+                                    @if (Cart::instance('cart')->content()->where('id', $product->id)->count() > 0)
+                                        <a href="{{ route('cart.index') }}"
+                                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium btn btn-warning mb-3">Go
+                                            to Cart</a>
+                                    @else
+                                        <form name="addtocart-form" method="post" action="{{ route('cart.add') }}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $product->id }}" />
+                                            <input type="hidden" name="quantity" value="1" />
+                                            <input type="hidden" name="name" value="{{ $product->name }}" />
+                                            <input type="hidden" name="price"
+                                                value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}" />
+                                            <button type="submit"
+                                                class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                                                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                                        </form>
+                                    @endif
                                 </div>
 
-                                <div
-                                    class="anim_appear-bottom position-absolute bottom-0 start-0 d-none d-sm-flex align-items-center bg-body">
-                                    <button
-                                        class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-add-cart js-open-aside"
-                                        data-aside="cartDrawer" title="Add To Cart">
-                                        Add To Cart
-                                    </button>
-                                    <button class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-quick-view"
-                                        data-bs-toggle="modal" data-bs-target="#quickView" title="Quick view">
-                                        <span class="d-none d-xxl-block">Quick View</span>
-                                        <span class="d-block d-xxl-none"><svg width="18" height="18"
-                                                viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_view" />
-                                            </svg></span>
-                                    </button>
-                                    <button class="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                                        title="Add To Wishlist">
-                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <use href="#icon_heart" />
-                                        </svg>
-                                    </button>
+                                <div class="pc__info position-relative">
+                                    <p class="pc__category"> {{ $product->brand->category->name }}</p>
+                                    <h6 class="pc__title"><a
+                                            href="{{ route('shop.product.details', ['product_slug' => $product->slug]) }}">{{ $product->name }}</a>
+                                    </h6>
+                                    <div class="product-card__price d-flex">
+                                        <span class="money price">
+                                            @if ($product->sale_price)
+                                                <s>$ {{ $product->regular_price }}</s> ${{ $product->sale_price }}
+                                            @else
+                                                ${{ $product->regular_price }}
+                                            @endif
+                                        </span>
+                                    </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
-                            <div class="pc__img-wrapper">
-                                <a href="details.html">
-                                    <img loading="lazy" src="{{ asset('assets/images/services-03.jpg') }}"
-                                        width="330" height="400" alt="Best for Creative" class="pc__img" />
-                                </a>
-                            </div>
-
-                            <div class="pc__info position-relative">
-                                <h6 class="pc__title">
-                                    <a href="details.html">Sliding Gate</a>
-                                </h6>
-                                <div class="product-card__price d-flex align-items-center">
-                                    <span class="money price text-secondary">$101</span>
-                                </div>
-
-                                <div
-                                    class="anim_appear-bottom position-absolute bottom-0 start-0 d-none d-sm-flex align-items-center bg-body">
-                                    <button
-                                        class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-add-cart js-open-aside"
-                                        data-aside="cartDrawer" title="Add To Cart">
-                                        Add To Cart
-                                    </button>
-                                    <button class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-quick-view"
-                                        data-bs-toggle="modal" data-bs-target="#quickView" title="Quick view">
-                                        <span class="d-none d-xxl-block">Quick View</span>
-                                        <span class="d-block d-xxl-none"><svg width="18" height="18"
-                                                viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_view" />
-                                            </svg></span>
-                                    </button>
-                                    <button class="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                                        title="Add To Wishlist">
-                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <use href="#icon_heart" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
-                            <div class="pc__img-wrapper">
-                                <a href="details.html">
-                                    <img loading="lazy" src="{{ asset('assets/images/services-04.jpg') }}"
-                                        width="330" height="400" alt="Best for Creative" class="pc__img" />
-                                </a>
-                            </div>
-
-                            <div class="pc__info position-relative">
-                                <h6 class="pc__title">
-                                    <a href="details.html">Sliding Gate</a>
-                                </h6>
-                                <div class="product-card__price d-flex align-items-center">
-                                    <span class="money price text-secondary">$101</span>
-                                </div>
-
-                                <div
-                                    class="anim_appear-bottom position-absolute bottom-0 start-0 d-none d-sm-flex align-items-center bg-body">
-                                    <button
-                                        class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-add-cart js-open-aside"
-                                        data-aside="cartDrawer" title="Add To Cart">
-                                        Add To Cart
-                                    </button>
-                                    <button class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-quick-view"
-                                        data-bs-toggle="modal" data-bs-target="#quickView" title="Quick view">
-                                        <span class="d-none d-xxl-block">Quick View</span>
-                                        <span class="d-block d-xxl-none"><svg width="18" height="18"
-                                                viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_view" />
-                                            </svg></span>
-                                    </button>
-                                    <button class="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                                        title="Add To Wishlist">
-                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <use href="#icon_heart" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
-                            <div class="pc__img-wrapper">
-                                <a href="details.html">
-                                    <img loading="lazy" src="{{ asset('assets/images/services-05.jpg') }}"
-                                        width="330" height="400" alt="Best for Creative" class="pc__img" />
-                                </a>
-
-                            </div>
-
-                            <div class="pc__info position-relative">
-                                <h6 class="pc__title">Window Frame</h6>
-                                <div class="product-card__price d-flex align-items-center">
-                                    <span class="money price-old">$101</span>
-                                    <span class="money price text-secondary">$201</span>
-                                </div>
-
-                                <div
-                                    class="anim_appear-bottom position-absolute bottom-0 start-0 d-none d-sm-flex align-items-center bg-body">
-                                    <button
-                                        class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-add-cart js-open-aside"
-                                        data-aside="cartDrawer" title="Add To Cart">
-                                        Add To Cart
-                                    </button>
-                                    <button class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-quick-view"
-                                        data-bs-toggle="modal" data-bs-target="#quickView" title="Quick view">
-                                        <span class="d-none d-xxl-block">Quick View</span>
-                                        <span class="d-block d-xxl-none"><svg width="18" height="18"
-                                                viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_view" />
-                                            </svg></span>
-                                    </button>
-                                    <button class="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                                        title="Add To Wishlist">
-                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <use href="#icon_heart" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
-                <!-- /.row -->
+               <!-- /.row -->
 
                 <div class="text-center mt-2">
-                    <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">Load
+                    <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="{{route('shop.index')}}">Load
                         More</a>
                 </div>
             </section>
