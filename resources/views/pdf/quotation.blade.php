@@ -49,10 +49,10 @@
         </thead>
         <tbody>
             @foreach ($data['services'] as $serviceId => $service)
-                @if (isset($service['width'], $service['height'], $service['quantity']))
-                    <div>
+                @if (isset($service['width'], $service['height'], $service['quantity'], $service['total_price']))
+                    {{-- <div>
                         @dump($service)
-                    </div>
+                    </div> --}}
                     <tr>
                         <td>{{ $service['service_name'] ?? 'N/A' }}</td>
                         <td>{{ $service['width'] ?? 'N/A' }}</td>

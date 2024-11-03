@@ -29,7 +29,6 @@ class AdminController extends Controller
     {
         $users = User::paginate(10);
         return view('admin.users', compact('users'));
-
     }
     public function quotations()
     {
@@ -60,12 +59,27 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:brands,slug,' . $request->id,
+            'width' => 'required|numeric|min:0.1',
+            'height' => 'required|numeric|min:0.1',
+            'price' => 'required|numeric|min:0.1',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'mimes:png,jpg,jpeg, heic|max:5500'
+            'image' => 'mimes:png,jpg,jpeg,heic,svg,svg|max:5500'
         ]);
+
+        $width = $request->input('width');
+        $height = $request->input('height');
+        $price = $request->input('price');
+
+        // Calculate price_per_m2
+        $area = $width * $height;
+        $price_per_m2 = $area > 0 ? $price / $area : 0;
 
         $brand = Brand::find($request->id);
         $brand->name = $request->name;
+        $brand->width = $width;
+        $brand->height = $height;
+        $brand->price = $price;
+        $brand->price_per_m2 = $price_per_m2;  // Use calculated value here
         $brand->slug = Str::slug($request->name);
         $brand->category_id = $request->category_id;
 
@@ -88,18 +102,38 @@ class AdminController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required',
+            'width' => 'required|numeric|min:0',
+            'height' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0',
             'slug' => 'required|unique:brands,slug',
-            'image' => 'mimes:png,jpg,jpeg, heic|max:5500'
+            'image' => 'mimes:png,jpg,jpeg,heic,svg|max:5500'
         ]);
+
+        $width = $request->input('width');
+        $height = $request->input('height');
+        $price = $request->input('price');
+
+        // Calculate price_per_m2
+        $area = $width * $height;
+        $price_per_m2 = $area > 0 ? $price / $area : 0;
+
         $brand = new Brand();
         $brand->name = $request->name;
+        $brand->width = $width;
+        $brand->height = $height;
+        $brand->price = $price;
+        $brand->price_per_m2 = $price_per_m2;  // Use calculated value here
         $brand->category_id = $request->category_id;
         $brand->slug = Str::slug($request->name);
-        $image = $request->file('image');
-        $file_ext = $request->file('image')->extension();
-        $file_name = Carbon::now()->timestamp . '.' . $file_ext;
-        $this->GenerateBrandThumbnailImage($image, $file_name);
-        $brand->image = $file_name;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $file_ext = $image->extension();
+            $file_name = Carbon::now()->timestamp . '.' . $file_ext;
+            $this->GenerateBrandThumbnailImage($image, $file_name);
+            $brand->image = $file_name;
+        }
+
         $brand->save();
         return redirect()->route('admin.brands')->with('status', 'Brand has been created successfully!!');
     }
@@ -147,7 +181,7 @@ class AdminController extends Controller
             'name' => 'required',
             'description' => 'required',
             'slug' => 'required|unique:categories,slug,' . $request->id,
-            'image' => 'mimes:png,jpg,jpeg, heic|max:5500'
+            'image' => 'mimes:png,jpg,jpeg,svg, heic|max:5500'
         ]);
 
         $category = Category::find($request->id);
@@ -174,7 +208,7 @@ class AdminController extends Controller
             'name' => 'required|unique:categories',
             'description' => 'required',
             'slug' => 'required|unique:categories,slug',
-            'image' => 'mimes:png,jpg,jpeg, heic|max:5500'
+            'image' => 'mimes:png,jpg,jpeg,svg,heic|max:5500'
         ]);
         $category = new Category();
         $category->name = $request->name;
@@ -223,10 +257,16 @@ class AdminController extends Controller
 
     public function add_product()
     {
-        $brands = Brand::select('id', 'name')->orderby('name')->get();
+        // Selecting 'id', 'name', and 'price' columns from the brands table to get both name and price of each design
+        $brands = Brand::select('id', 'name', 'price')->orderby('name')->get();
+        
+        // Fetching only 'id' and 'name' columns from the categories table for the category dropdown in the form
         $categories = Category::select('id', 'name')->orderby('name')->get();
+    
+        // Passing the retrieved brands and categories to the view so they can be used in the form
         return view('admin.product_add', compact('brands', 'categories'));
     }
+    
 
     public function edit_product($id)
     {
@@ -236,9 +276,10 @@ class AdminController extends Controller
         return view('admin.product_edit', compact('product', 'brands', 'categories'));
     }
 
-    public function view_product($id) { 
+    public function view_product($id)
+    {
         $product = Product::find($id);
-        return view('admin.product_view',compact('product'));
+        return view('admin.product_view', compact('product'));
     }
 
     public function update_product(Request $request)
@@ -246,7 +287,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required',
             'short_description' => 'required',
-            'image' => 'mimes:png,jpg,jpeg, heic|max:5500',
+            'image' => 'mimes:png,jpg,jpeg,svg,heic|max:5500',
             'description' => 'required',
             'regular_price' => 'required',
             'sale_price' => 'nullable',
@@ -303,7 +344,7 @@ class AdminController extends Controller
                 }
             }
 
-            $allowedFileExtension = ['jpeg', 'png', 'jpg'];
+            $allowedFileExtension = ['jpeg', 'png', 'jpg','svg','heic'];
             $files = $request->file('images');
             foreach ($files as $file) {
                 $gExtension = $file->getClientOriginalExtension();
@@ -329,13 +370,13 @@ class AdminController extends Controller
             'name' => 'required',
             'slug' => 'required|unique:products,slug',
             'short_description' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg, heic|max:5500',
+            'image' => 'required|mimes:png,jpg,jpeg,svg,heic|max:5500',
             'regular_price' => 'required',
             'sale_price' => 'nullable',
             'featured' => 'required',
             'brand_id' => 'required',
         ]);
-            // 'category_id'=> 'required',
+        // 'category_id'=> 'required',
         $product = new Product();
         $product->name = $request->name;
         $product->slug = Str::slug($request->name);
@@ -364,7 +405,7 @@ class AdminController extends Controller
         $counter = 1;
 
         if ($request->hasFile('images')) {
-            $allowedFileExtension = ['jpeg', 'png', 'jpg', 'heic'];
+            $allowedFileExtension = ['jpeg', 'png', 'jpg', 'heic','svg'];
             $files = $request->file('images');
             foreach ($files as $file) {
                 $gExtension = $file->getClientOriginalExtension();

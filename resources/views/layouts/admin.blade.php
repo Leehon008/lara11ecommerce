@@ -43,10 +43,7 @@
                 <div class="section-menu-left">
                     <div class="box-logo">
                         <a href="{{ route('admin.index') }}" id="site-logo-inner">
-                            <img class="" id="logo_header1" alt=""
-                                src="{{ asset('assets/images/logo.png') }}"
-                                data-light="{{ asset('assets/images/logo.png') }}"
-                                data-dark="{{ asset('assets/images/logo.png') }}">
+                            <img class="" id="logo_header1" alt="" src="{{ asset('assets/images/logo.png') }}" data-light="{{ asset('assets/images/logo.png') }}" data-dark="{{ asset('assets/images/logo.png') }}">
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -68,24 +65,6 @@
                             <ul class="menu-list">
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><i class="icon-shopping-cart"></i></div>
-                                        <div class="text">Products</div>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('admin.product_add') }}" class="">
-                                                <div class="text">Add Product</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('admin.products') }}" class="">
-                                                <div class="text">Products</div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item has-children">
-                                    <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-layers"></i></div>
                                         <div class="text">Category</div>
                                     </a>
@@ -105,7 +84,7 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-layers"></i></div>
-                                        <div class="text">Products Designs</div>
+                                        <div class="text">Designs</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
@@ -120,7 +99,27 @@
                                         </li>
                                     </ul>
                                 </li>
-                                
+                                <li class="menu-item has-children">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><i class="icon-shopping-cart"></i></div>
+                                        <div class="text">Products</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.product_add') }}" class="">
+                                                <div class="text">Add Product</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.products') }}" class="">
+                                                <div class="text">Products</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-file-plus"></i></div>
@@ -170,8 +169,7 @@
                                     <form action="{{ route('logout') }}" id="logout-form" method="post">
                                         @csrf
                                     </form>
-                                    <a href="{{ route('logout') }}" class=""
-                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                    <a href="{{ route('logout') }}" class="" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                         <div class="icon"><i class="icon-settings"></i></div>
                                         <div class="text">Logout</div>
                                     </a>
@@ -186,153 +184,19 @@
                         <div class="wrap">
                             <div class="header-left">
                                 <a href="index-2.html">
-                                    <img class="" id="logo_header_mobile" alt=""
-                                        src="{{ asset('assets/images/logo.png') }}" data-light="assets/images/logo.png"
-                                        data-dark="{{ asset('assets/images/logo.png') }}" data-width="154px"
-                                        data-height="52px" data-retina="{{ asset('assets/images/logo.png') }}">
+                                    <img class="" id="logo_header_mobile" alt="" src="{{ asset('assets/images/logo.png') }}" data-light="assets/images/logo.png" data-dark="{{ asset('assets/images/logo.png') }}" data-width="154px" data-height="52px" data-retina="{{ asset('assets/images/logo.png') }}">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>
                                 </div>
 
-
-                                <form class="form-search flex-grow">
-                                    <fieldset class="name">
-                                        <input type="text" placeholder="Search here..." class="show-search"
-                                            name="name" tabindex="2" value="" aria-required="true"
-                                            required="">
-                                    </fieldset>
-                                    <div class="button-submit">
-                                        <button class="" type="submit"><i class="icon-search"></i></button>
-                                    </div>
-                                    <div class="box-content-search" id="box-content-search">
-                                        <ul class="mb-24">
-                                            <li class="mb-14">
-                                                <div class="body-title">Top selling product</div>
-                                            </li>
-                                            <li class="mb-14">
-                                                <div class="divider"></div>
-                                            </li>
-                                            <li>
-                                                <ul>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/17.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Dog Food
-                                                                    Rachael Ray Nutrish®</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/18.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Natural
-                                                                    Dog Food Healthy Dog Food</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/19.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Freshpet
-                                                                    Healthy Dog Food and Cat</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        <ul class="">
-                                            <li class="mb-14">
-                                                <div class="body-title">Order product</div>
-                                            </li>
-                                            <li class="mb-14">
-                                                <div class="divider"></div>
-                                            </li>
-                                            <li>
-                                                <ul>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/20.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Sojos
-                                                                    Crunchy Natural Grain Free...</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/21.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Kristin
-                                                                    Watson</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/22.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Mega
-                                                                    Pumpkin Bone</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/23.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Mega
-                                                                    Pumpkin Bone</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </form>
-
                             </div>
                             <div class="header-grid">
 
-                                
+
                                 <div class="popup-wrap user type-header">
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="header-user wg-user">
                                                 <span class="image">
                                                     <img src="{{ asset('assets/images/favicon.ico') }}" alt="Admin">
@@ -343,47 +207,11 @@
                                                 </span>
                                             </span>
                                         </button>
-                                        <ul class="dropdown-menu dropdown-menu-end has-content"
-                                            aria-labelledby="dropdownMenuButton3">
+                                        <ul class="dropdown-menu dropdown-menu-end has-content" aria-labelledby="dropdownMenuButton3">
                                             <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-user"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Account</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-mail"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Inbox</div>
-                                                    <div class="number">27</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-file-text"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Taskboard</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-headphones"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Support</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <form action="{{ route('logout') }}" method="post"
-                                                    id="logout-form">
+                                                <form action="{{ route('logout') }}" method="post" id="logout-form">
                                                     @csrf
-                                                    <a href="{{ route('logout') }}" class="user-item"
-                                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                    <a href="{{ route('logout') }}" class="user-item" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                                         <div class="icon">
                                                             <i class="icon-log-out"></i>
                                                         </div>
@@ -421,6 +249,35 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    {{-- <script>
+        function updatePricePerM2() {
+            // Get the selected brand option
+            const selectedBrand = document.getElementById('brand').selectedOptions[0];
+        
+            // Get the price_per_m2 data attribute from the selected option
+            let pricePerM2 = selectedBrand.getAttribute('data-price');
+        
+            // Round the price per m² to 2 decimal places
+            pricePerM2 = parseFloat(pricePerM2).toFixed(2);
+        
+            // Set the value of the price_per_m2 input field
+            document.getElementById('price_per_m2').value = pricePerM2;
+        }
+        </script>
+         --}}
+    <script>
+        function updatePrice() {
+            // Get the selected brand option
+            const selectedBrand = document.getElementById('brand').selectedOptions[0];
+
+            // Get the price_per_m2 data attribute from the selected option
+            const price = selectedBrand.getAttribute('data-price');
+
+            // Set the value of the price_per_m2 input field
+            document.getElementById('price').value = price;
+        }
+
+    </script>
     <script>
         (function($) {
 
@@ -430,69 +287,69 @@
 
                     var options = {
                         series: [{
-                                name: 'Total',
-                                data: [0.00, 0.00, 0.00, 0.00, 0.00, 273.22, 208.12, 0.00, 0.00,
-                                    0.00, 0.00, 0.00
+                                name: 'Total'
+                                , data: [0.00, 0.00, 0.00, 0.00, 0.00, 273.22, 208.12, 0.00, 0.00
+                                    , 0.00, 0.00, 0.00
                                 ]
                             }, {
-                                name: 'Pending',
-                                data: [0.00, 0.00, 0.00, 0.00, 0.00, 273.22, 208.12, 0.00, 0.00,
-                                    0.00, 0.00, 0.00
-                                ]
-                            },
-                            {
-                                name: 'Delivered',
-                                data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,
-                                    0.00, 0.00
-                                ]
-                            }, {
-                                name: 'Canceled',
-                                data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,
-                                    0.00, 0.00
+                                name: 'Pending'
+                                , data: [0.00, 0.00, 0.00, 0.00, 0.00, 273.22, 208.12, 0.00, 0.00
+                                    , 0.00, 0.00, 0.00
                                 ]
                             }
-                        ],
-                        chart: {
-                            type: 'bar',
-                            height: 325,
-                            toolbar: {
-                                show: false,
-                            },
-                        },
-                        plotOptions: {
+                            , {
+                                name: 'Delivered'
+                                , data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00
+                                    , 0.00, 0.00
+                                ]
+                            }, {
+                                name: 'Canceled'
+                                , data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00
+                                    , 0.00, 0.00
+                                ]
+                            }
+                        ]
+                        , chart: {
+                            type: 'bar'
+                            , height: 325
+                            , toolbar: {
+                                show: false
+                            , }
+                        , }
+                        , plotOptions: {
                             bar: {
-                                horizontal: false,
-                                columnWidth: '10px',
-                                endingShape: 'rounded'
-                            },
-                        },
-                        dataLabels: {
+                                horizontal: false
+                                , columnWidth: '10px'
+                                , endingShape: 'rounded'
+                            }
+                        , }
+                        , dataLabels: {
                             enabled: false
-                        },
-                        legend: {
-                            show: false,
-                        },
-                        colors: ['#2377FC', '#FFA500', '#078407', '#FF0000'],
-                        stroke: {
-                            show: false,
-                        },
-                        xaxis: {
+                        }
+                        , legend: {
+                            show: false
+                        , }
+                        , colors: ['#2377FC', '#FFA500', '#078407', '#FF0000']
+                        , stroke: {
+                            show: false
+                        , }
+                        , xaxis: {
                             labels: {
                                 style: {
-                                    colors: '#212529',
-                                },
-                            },
-                            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-                                'Oct', 'Nov', 'Dec'
-                            ],
-                        },
-                        yaxis: {
-                            show: false,
-                        },
-                        fill: {
+                                    colors: '#212529'
+                                , }
+                            , }
+                            , categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'
+                                , 'Oct', 'Nov', 'Dec'
+                            ]
+                        , }
+                        , yaxis: {
+                            show: false
+                        , }
+                        , fill: {
                             opacity: 1
-                        },
-                        tooltip: {
+                        }
+                        , tooltip: {
                             y: {
                                 formatter: function(val) {
                                     return "$ " + val + ""
@@ -502,8 +359,8 @@
                     };
 
                     chart = new ApexCharts(
-                        document.querySelector("#line-chart-8"),
-                        options
+                        document.querySelector("#line-chart-8")
+                        , options
                     );
                     if ($("#line-chart-8").length > 0) {
                         chart.render();
@@ -516,9 +373,9 @@
 
                     load: function() {
                         chartBar();
-                    },
-                    resize: function() {},
-                };
+                    }
+                    , resize: function() {}
+                , };
             })();
 
             jQuery(document).ready(function() {});
@@ -529,9 +386,11 @@
 
             jQuery(window).on("resize", function() {});
         })(jQuery);
+
     </script>
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+
     </script>
 
     @stack('scripts')

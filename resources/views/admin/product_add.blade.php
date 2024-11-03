@@ -48,7 +48,7 @@
 
                     <fieldset class="name hidden">
                         <div class="body-title mb-10">Slug <span class="tf-color-1">*</span></div>
-                        <input class="mb-10" type="text" placeholder="Enter product slug" name="slug" tabindex="0"
+                        <input class="mb-10" type="text" readonly placeholder="Enter product slug" name="slug" tabindex="0"
                             value="{{ old('slug') }}" aria-required="true" required="">
                         <div class="text-tiny">Do not exceed 100 characters when entering the product name.</div>
                         @error('slug')
@@ -62,10 +62,13 @@
                             <div class="body-title mb-10">Product Design <span class="tf-color-1">*</span>
                             </div>
                             <div class="select">
-                                <select class="" name="brand_id">
-                                    <option>Choose Design</option>
+                                
+                                <select name="brand_id" id="brand" onchange="updatePrice()" required>
+                                    <option value="">Select Design</option>
                                     @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                        <option value="{{ $brand->id }}" data-price="{{ $brand->price}}">
+                                            {{ $brand->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -91,7 +94,7 @@
                     <div class="cols gap22">
                         <fieldset class="name">
                             <div class="body-title mb-10">Regular Price <span class="tf-color-1">*</span></div>
-                            <input class="mb-10" type="text" placeholder="Enter regular price" name="regular_price"
+                            <input class="mb-10" type="number" step="0.01" id="price" readonly placeholder="Enter regular price" name="regular_price"
                                 tabindex="0" value="{{ old('regular_price') }}" aria-required="true" required="">
                         </fieldset>
                         @error('regular_price')
@@ -100,7 +103,7 @@
 
                         <fieldset class="name">
                             <div class="body-title mb-10">Sale Price</div>
-                            <input class="mb-10" type="text" placeholder="Enter sale price" name="sale_price"
+                            <input class="mb-10" type="number" step="0.01" placeholder="Enter sale price" name="sale_price"
                                 tabindex="0" value="{{ old('sale_price') }}">
                         </fieldset>
                         @error('sale_price')

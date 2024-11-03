@@ -59,7 +59,7 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $user->name }} &nbsp; {{ $user->surname }}</td>
-                                    <td>{{ $user->address }}</td>
+                                    <td>{{ $user->address }}</td> 
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->mobile }}</td>
                                    

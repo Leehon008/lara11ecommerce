@@ -1,4 +1,4 @@
- <hr class="mt-5 text-secondary" />
+
   <footer class="footer footer_type_2">
 
     <div class="footer-bottom">

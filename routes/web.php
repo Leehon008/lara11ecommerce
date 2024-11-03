@@ -14,6 +14,7 @@ use App\Http\Controllers\PromotionController;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/designs', [HomeController::class, 'designs'])->name('frontend.pages.designs');
 // Route::get('/', function () {
 //     return view('frontend.pages.home');
 // });
@@ -27,7 +28,10 @@ Route::get('/contact-us', function () {
     return view('frontend.pages.contact');
 });
 
-Route::get('/quotation', [QuotationsController::class, 'getQuote']);
+
+Route::get('/quotation', [QuotationsController::class, 'getQuote'])->name('quotation');
+Route::get('/quotation/get-brands/{categoryId}', [QuotationsController::class, 'getBrandsByCategory']);
+Route::post('/generate-pdf', [QuotationsController::class, 'generatePDF'])->name('generate.pdf');
 
 //shop routes
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
@@ -43,6 +47,10 @@ Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item'])->n
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
+    Route::get('/account-details', [UserController::class, 'editAccount'])->name('user.account-details');
+    Route::post('/account-details/update', [UserController::class, 'updateAccount'])->name('user.updateAccount');
+
+
 });
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {

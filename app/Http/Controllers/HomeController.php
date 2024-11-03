@@ -26,4 +26,10 @@ class HomeController extends Controller
         // return view('index');
         return view('frontend.pages.home', compact('products', 'fProducts', 'brands', 'categories', 'promotions'));
     }
+
+    public function designs()
+    {
+        $brands = Brand::paginate(10);
+        return view('frontend.pages.designs', compact('brands'));
+    }
 }

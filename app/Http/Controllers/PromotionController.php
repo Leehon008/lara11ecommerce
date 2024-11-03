@@ -24,7 +24,7 @@ class PromotionController extends Controller
         $request->validate([
             'promo_heading' => 'required|string|max:255',
             'promo_description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,heic|max:2048',
         ]);
 
         if (Promotion::count() >= 3) {
@@ -56,7 +56,7 @@ class PromotionController extends Controller
         $request->validate([
             'promo_heading' => 'required|string|max:255',
             'promo_description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,heic|max:2048',
         ]);
 
         // Update promotion details

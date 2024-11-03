@@ -59,8 +59,8 @@
                                         <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Categories</div>
-                                        <h4>{{ $categoryCount }}</h4>
+                                        <div class="body-text mb-2">Todays Orders</div>
+                                        <h4>4</h4>
                                     </div>
                                 </div>
                             </div>
@@ -119,11 +119,12 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
                                     <div class="image ic-bg">
-                                        <i class="icon-dollar-sign"></i>
+                                        <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Todays Orders</div>
-                                        <h4>4</h4>
+                                        
+                                        <div class="body-text mb-2">Categories</div>
+                                        <h4>{{ $categoryCount }}</h4>
                                     </div>
                                 </div>
                             </div>
