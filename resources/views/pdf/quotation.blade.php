@@ -33,6 +33,7 @@
     <p><strong>Quotation Number:</strong> {{ $data['quotation_number'] ?? 'N/A' }}</p>
     <p><strong>Date:</strong> {{ $data['date'] ?? 'N/A' }}</p>
     <p><strong>Name:</strong> {{ $data['user-fullname'] }}</p>
+    <p><strong>Company Name:</strong> {{ $data['company_name'] }}</p>
     <p><strong>Delivery Location:</strong> {{ $data['delivery-location'] }}</p>
 
     <h3>Services</h3>

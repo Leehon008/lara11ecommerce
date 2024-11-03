@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Brand;
 use App\Models\Category;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
 
 class QuotationsController extends Controller
 {
@@ -27,8 +27,12 @@ class QuotationsController extends Controller
        return response()->json($brands);
     }
      
-    public function generatePDF(Request $request)
+  public function generatePDF(Request $request)
     {
+        // Get the currently logged-in user's first name and surname
+        $user = Auth::user();
+        $userFullName = $user->name . ' ' . $user->surname; // Concatenate first name and surname
+
         // Retrieve the services from the request and calculate the total amount
         $services = $request->input('services', []);
         $totalAmount = 0;
@@ -42,7 +46,8 @@ class QuotationsController extends Controller
 
         // Prepare data to be passed to the view
         $data = [
-            'user-fullname' => $request->input('user-fullname'),
+            'user-fullname' => $userFullName,  
+            'company_name' => $request->input('company_name'),
             'delivery-location' => $request->input('delivery-location'),
             'services' => $services,
             'quotation_number' => $request->input('quotation_number'),
@@ -64,6 +69,5 @@ class QuotationsController extends Controller
         // Return the PDF as a download
         return $dompdf->stream('quotation_'.$request->input('quotation_number').'.pdf');
     }
-
 
 }
