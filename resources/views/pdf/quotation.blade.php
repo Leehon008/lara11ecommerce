@@ -3,40 +3,71 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Quotation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation PDF</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica', sans-serif;
+            margin: 20px;
+            color: #333;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #0056b3;
+        }
+
+        .quotation-header {
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quotation-header img {
+            max-width: 150px;
+            /* Limit the size of the logo */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin: 20px 0;
         }
 
         th,
         td {
-            padding: 8px;
             border: 1px solid #ddd;
+            padding: 8px;
             text-align: left;
         }
 
         th {
             background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .total-amount {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #d9534f;
+            text-align: right;
         }
     </style>
 </head>
 
 <body>
+    <div class="quotation-header">
+        {{-- <img src="{{ asset('assets/images/logo.png') }}" alt="Best for creative" class="logo__image d-block" /> --}}
+        <h1>Quotation</h1>
+        <h2>Quotation Number: {{ $data['quotation_number'] }}</h2>
+        <p>Date: {{ $data['date'] }}</p>
+        <p>Delivered To: {{ $data['company_name'] }} </p>
+        <p>Location: {{ $data['delivery-location'] }}</p>
+        <p>Prepared By: {{ $data['user-fullname'] }}</p>
+    </div>
 
-    <h2>Quotation</h2>
-    <p><strong>Quotation Number:</strong> {{ $data['quotation_number'] ?? 'N/A' }}</p>
-    <p><strong>Date:</strong> {{ $data['date'] ?? 'N/A' }}</p>
-    <p><strong>Name:</strong> {{ $data['user-fullname'] }}</p>
-    <p><strong>Company Name:</strong> {{ $data['company_name'] }}</p>
-    <p><strong>Delivery Location:</strong> {{ $data['delivery-location'] }}</p>
-
-    <h3>Services</h3>
     <table>
         <thead>
             <tr>
@@ -44,7 +75,7 @@
                 <th>Width (m)</th>
                 <th>Height (m)</th>
                 <th>Quantity</th>
-                <th>Price per m²</th>
+                <th>Unit Price</th>
                 <th>Total Price</th>
             </tr>
         </thead>
@@ -67,21 +98,7 @@
         </tbody>
     </table>
 
-    <h3>Total Amount</h3>
-    <p><strong>Total:</strong> ${{ $data['total_amount'] }}</p>
-
-
+    <p class="total-amount">Total Amount: ${{ $data['total_amount'] }}</p>
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Set the current date
-        const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-        document.getElementById("date").value = currentDate;
-
-        // Generate a unique quotation number (you could use a more complex logic here if needed)
-        const quotationNumber = `Q-${Math.floor(Math.random() * 1000000)}`;
-        document.getElementById("quotation_number").value = quotationNumber;
-    });
-</script>
 
 </html>
