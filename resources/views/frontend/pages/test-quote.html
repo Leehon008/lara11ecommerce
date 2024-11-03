@@ -1,0 +1,115 @@
+@extends('frontend.layout.app')
+@section('title', 'Instant Online Quotation | Best For Creative')
+@section('content')
+<main class="pt-90">
+    <div class="mb-md-1 pb-md-3"></div>
+    <section class="product-single container">
+        <form id="quotationForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-single__details-tab">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link nav-link_underscore active" id="tab-description-tab" data-bs-toggle="tab" href="#tab-description" role="tab" aria-controls="tab-description" aria-selected="true">User Details</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link nav-link_underscore" id="tab-additional-info-tab" data-bs-toggle="tab" href="#tab-additional-info" role="tab" aria-controls="tab-additional-info" aria-selected="false">Specifications</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link nav-link_underscore" id="tab-reviews-tab" data-bs-toggle="tab" href="#tab-reviews" role="tab" aria-controls="tab-reviews" aria-selected="false">Print Quotation</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- Tab 1: User Details -->
+                            <div class="tab-pane fade show active" id="tab-description" role="tabpanel" aria-labelledby="tab-description-tab">
+                                <div class="product-single__review-form">
+                                    <div class="form-label-fixed mb-4">
+                                        <label for="form-input-name" class="form-label">Full Name or Company Name *</label>
+                                        <input id="form-input-name" class="form-control form-control-md form-control_gray" required />
+                                    </div>
+                                    <div class="form-label-fixed mb-4">
+                                        <label for="form-input-phone" class="form-label">Phone Number *</label>
+                                        <input id="form-input-phone" class="form-control form-control-md form-control_gray" required />
+                                    </div>
+                                    <div class="form-label-fixed mb-4">
+                                        <label for="form-input-email" class="form-label">Email address *</label>
+                                        <input id="form-input-email" class="form-control form-control-md form-control_gray" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="delivery-location" class="form-label">Delivery Location (City / Town) *</label>
+                                        <select id="delivery-location" class="form-control select2" required>
+                                            <!-- Location options will be dynamically populated by JavaScript -->
+                                        </select>
+                                    </div>
+                                    <div class="form-action">
+                                        <button type="button" class="btn btn-primary" onclick="nextTab('tab-additional-info')">NEXT</button>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <!-- Tab 2: Specifications -->
+                            <div class="tab-pane fade" id="tab-additional-info" role="tabpanel" aria-labelledby="tab-additional-info-tab">
+                                <div class="product-single__review-form">
+                                    <h3 class="text-center mb-5">SELECT SERVICE</h3>
+                                    <div class="checkbox-group text-uppercase">
+                                        <div class="row mb-4">
+                                            @foreach ($categories as $category)
+                                                <div class="col-md-4">
+                                                    <div class="form-check mb-4">
+                                                        <input 
+                                                            class="form-check-input form-check-input_fill service-checkbox" 
+                                                            type="checkbox" 
+                                                            name="services[]" 
+                                                            value="{{ $category->id }}" 
+                                                            data-input="category-{{ $category->id }}-dropdown">
+                                                        <label>{{ $category->name }}</label>
+                                                    </div>
+                                                    <!-- Placeholder for dynamic dropdowns based on selected category -->
+                                                    <div id="category-{{ $category->id }}-dropdown"></div>
+                                                </div>
+                                            @endforeach
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="service-details">
+                                        <!-- Dynamic input fields will be inserted here based on selected services -->
+                                    </div>
+            
+                                    <div class="form-action">
+                                        <button type="button" class="btn btn-secondary" onclick="prevTab('tab-description')">BACK</button>
+                                      
+                                        <button type="button" class="btn btn-primary" onclick="nextTab('tab-reviews')" calculateQuotation()> NEXT</button>
+
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <!-- Tab 3: Print Quotation -->
+                            <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
+                                <div class="product-single__review-form">
+                                    <h3 class="text-center mb-5">Preview Quotation</h3>
+                                    <!-- Quotation Summary and Amount Calculations will be displayed here -->
+                                    <div id="quotation-preview">
+                                        <!-- Dynamic quotation preview details -->
+                                    </div>
+                                    <div class="form-action">
+                                        <button type="button" class="btn btn-secondary" onclick="prevTab('tab-additional-info')">BACK</button>
+                                        <button type="submit" class="btn btn-primary">Generate PDF Quotation</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                       
+        </form>
+        
+
+    </section>
+
+    <!-- /.products-carousel container -->
+</main>
+@endsection

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+    <form id="quotation-form">
+        <!-- User Details -->
+        <div>
+            <label for="user-fullname">Full Name:</label>
+            <input type="text" id="user-fullname" placeholder="Full Name">
+        </div>
+        <div>
+            <label for="user-email">Email:</label>
+            <input type="email" id="user-email" placeholder="Email">
+        </div>
+        <div>
+            <label for="user-phone">Phone:</label>
+            <input type="text" id="user-phone" placeholder="Phone">
+        </div>
+        <div>
+            <label for="user-address">Address:</label>
+            <input type="text" id="user-address" placeholder="Address">
+        </div>
+
+        <!-- Services -->
+        <div class="service-section">
+            <input type="checkbox" class="service-checkbox" data-service-name="service1">
+            <label for="input-width-service1">Width:</label>
+            <input type="number" id="input-width-service1" class="input-width" placeholder="Width">
+            <label for="input-height-service1">Height:</label>
+            <input type="number" id="input-height-service1" class="input-height" placeholder="Height">
+            <label for="input-quantity-service1">Quantity:</label>
+            <input type="number" id="input-quantity-service1" class="input-quantity" placeholder="Quantity">
+            <label for="brand-price-service1">Price per m²:</label>
+            <input type="number" id="brand-price-service1" class="input-price" placeholder="Price per m²">
+        </div>
+
+        <!-- Add more service sections as needed -->
+
+        <!-- Delivery Location -->
+        <div>
+            <label for="delivery-location">Delivery Location:</label>
+            <select id="delivery-location" class="select2">
+                <option value="0">Select Location</option>
+                <option value="10">Location 1 - $10</option>
+                <option value="20">Location 2 - $20</option>
+            </select>
+        </div>
+
+        <!-- Quotation Preview -->
+        <div id="quotation-preview"></div>
+
+        <!-- Submit Button -->
+        <button type="submit">Generate Quotation</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $(".select2").select2({
+                placeholder: "Select Location",
+                allowClear: true,
+                minimumResultsForSearch: 7, // This hides the search bar initially
+                width: "100%", // Adjust the width as needed
+            });
+
+            function generateQuotationNumber() {
+                const randomNumber = Math.floor(10000000 + Math.random() * 90000000); // Generates an 8-digit number
+                return randomNumber;
+            }
+
+            function getCurrentDate() {
+                const date = new Date();
+                const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+                return date.toLocaleDateString(undefined, options); // Returns the date in MM/DD/YYYY format
+            }
+
+            // Main function to calculate and generate the quotation preview
+            function calculateQuotation() {
+                console.log("calculateQuotation function is loaded");
+                generateQuotationPreview();
+            }
+
+            // Generate the quotation preview content
+            function generateQuotationPreview() {
+                const userFullName = document.getElementById("user-fullname").value || "N/A";
+                const userEmail = document.getElementById("user-email").value || "N/A";
+                const userPhone = document.getElementById("user-phone").value || "N/A";
+                const userAddress = document.getElementById("user-address").value || "N/A";
+
+                const serviceSections = document.querySelectorAll(".service-section");
+                let totalCost = 0;
+                let previewTableRows = "";
+
+                serviceSections.forEach((section) => {
+                    const serviceName = section.querySelector(".service-checkbox").dataset.serviceName;
+                    const width = parseFloat(section.querySelector(`#input-width-${serviceName}`).value) || 0;
+                    const height = parseFloat(section.querySelector(`#input-height-${serviceName}`).value) || 0;
+                    const quantity = parseInt(section.querySelector(`#input-quantity-${serviceName}`).value) || 1;
+                    const pricePerM2 = parseFloat(section.querySelector(`#brand-price-${serviceName}`).value) || 0;
+
+                    const area = width * height;
+                    const itemTotal = area * pricePerM2 * quantity;
+                    totalCost += itemTotal;
+
+                    previewTableRows += `
+                        <tr>
+                            <td>${serviceName}</td>
+                            <td>${width} m</td>
+                            <td>${height} m</td>
+                            <td>${quantity}</td>
+                            <td>$${pricePerM2}</td>
+                            <td>$${itemTotal.toFixed(2)}</td>
+                        </tr>
+                    `;
+                });
+
+                const deliveryFee = parseFloat(document.getElementById("delivery-location").value) || 0;
+                const vat = totalCost * 0.15;
+                const grandTotal = totalCost + deliveryFee + vat;
+
+                document.getElementById("quotation-preview").innerHTML = `
+                    <div class="text-center mb-4">
+                        <img src="{{asset('assets/images/logo.png')}}" alt="BFC Logo" class="mb-2">
+                        <h3>BFC Quotation</h3>
+                        <p><strong>Client Details</strong><br>
+                            ${userFullName}<br>
+                            ${userEmail}<br>
+                            ${userPhone}<br>
+                            ${userAddress}
+                        </p>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Service</th>
+                                <th>Width (m)</th>
+                                <th>Height (m)</th>
+                                <th>Quantity</th>
+                                <th>Price per m²</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${previewTableRows}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="5" class="text-end">Subtotal</th>
+                                <td>$${totalCost.toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="5" class="text-end">Delivery Fee</th>
+                                <td>$${deliveryFee.toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="5" class="text-end">VAT (15%)</th>
+                                <td>$${vat.toFixed(2)}</td>
+                            </tr>
+                            <tr class="table-primary">
+                                <th colspan="5" class="text-end">Grand Total</th>
+                                <td><strong>$${grandTotal.toFixed(2)}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                `;
+            }
+
+            // Ensure calculateQuotation is triggered appropriately
+            $('#quotation-form').on('submit', function (e) {
+                e.preventDefault();
+                calculateQuotation();
+            });
+
+            $('.service-checkbox, .input-width, .input-height, .input-quantity, #delivery-location').on('change', function () {
+                calculateQuotation();
+            });
+        });
+    </script>
+</body>
+</html>
