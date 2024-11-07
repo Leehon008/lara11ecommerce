@@ -44,6 +44,8 @@
                                     <!-- Location options will be dynamically populated by JavaScript -->
                                 </select>
                             </div>
+
+                            <p id="location-fee">Delivery Fee: $0</p>
                         </div>
 
                         <!-- Service Selection Section -->

@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha384-DyZ88mC6Up2uqS1d4+N49Zqzli37atHiC4CxReIcIt+S5v4fajp6HiFddJ8ZXzJf" crossorigin="anonymous">
+
+    <title>Best for Creative | Quotation PDF</title>
     <style>
         body {
             font-family: 'Helvetica', sans-serif;
@@ -12,22 +15,39 @@
             color: #333;
         }
 
-        h1,
-        h2,
         h3 {
-            color: #0056b3;
-        }
-
-        .quotation-header {
+            color: #f9db63;
             text-align: center;
-            border-bottom: 2px solid #0056b3;
-            padding-bottom: 10px;
             margin-bottom: 20px;
         }
 
-        .quotation-header img {
+        .quotation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+
+        .company-info,
+        .quotation-details {
+            width: 48%;
+        }
+
+        .company-info img {
             max-width: 150px;
-            /* Limit the size of the logo */
+            margin-bottom: 10px;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        .icon-text i {
+            margin-right: 8px;
         }
 
         table {
@@ -51,23 +71,28 @@
         .total-amount {
             font-weight: bold;
             font-size: 1.2em;
-            color: #d9534f;
+            color: #22e653;
             text-align: right;
         }
     </style>
 </head>
 
 <body>
+    <h3>Best for Creative Quotation Number: {{ $data['quotation_number'] }}</h3>
     <div class="quotation-header">
-        {{-- <img src="{{ asset('assets/images/logo.png') }}" alt="Best for creative" class="logo__image d-block" /> --}}
-        <h1>Quotation</h1>
-        <h2>Quotation Number: {{ $data['quotation_number'] }}</h2>
-        <p>Date: {{ $data['date'] }}</p>
-        <p>Delivered To: {{ $data['company_name'] }} </p>
-        <p>Location: {{ $data['delivery-location'] }}</p>
-        <p>Prepared By: {{ $data['user-fullname'] }}</p>
+        <div style="text-align:center;">
+            <span> sales@bestforcreative.co.zw &nbsp;&nbsp;&nbsp; +263 77 323 5698 &nbsp;&nbsp;&nbsp; 19034 Chitungwiza
+                Industry</span>
+        </div>
+        <div class="quotation-details" style="margin-top:5px;margin-bottom:25px;">
+            <h3>Client Details</h3>
+            <div>{{ $data['date'] }}</div>
+            <div>{{ $data['user-fullname'] }}</div>
+            <div>{{ $data['delivery-location'] }}</div>
+        </div>
     </div>
 
+    <!-- Services Table -->
     <table>
         <thead>
             <tr>
@@ -82,9 +107,6 @@
         <tbody>
             @foreach ($data['services'] as $serviceId => $service)
                 @if (isset($service['width'], $service['height'], $service['quantity'], $service['total_price']))
-                    {{-- <div>
-                        @dump($service)
-                    </div> --}}
                     <tr>
                         <td>{{ $service['service_name'] ?? 'N/A' }}</td>
                         <td>{{ $service['width'] ?? 'N/A' }}</td>
@@ -98,7 +120,13 @@
         </tbody>
     </table>
 
+    <!-- Delivery Fee and VAT -->
+    <p>Delivery Fee: ${{ $data['delivery_fee'] }}</p>
+    <p>VAT (15%): ${{ $data['vat'] }}</p>
+
+    <!-- Total Amount -->
     <p class="total-amount">Total Amount: ${{ $data['total_amount'] }}</p>
 </body>
+
 
 </html>

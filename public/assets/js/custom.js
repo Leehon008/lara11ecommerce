@@ -10,7 +10,7 @@ function prevTab(tabId) {
 // Delivery fees for different locations
 document.addEventListener("DOMContentLoaded", function () {
     const locations = [
-        { name: "Own Delivery", fee: 0 },
+        { name: "Own Delivery", fee: 230 },
         { name: "Harare", fee: 0 },
         { name: "Chitungwiza", fee: 0 },
         { name: "Bulawayo", fee: 390 },
@@ -74,17 +74,63 @@ document.addEventListener("DOMContentLoaded", function () {
         { name: "Plumtree", fee: 522 },
         { name: "Esigodini", fee: 401 },
         { name: "Filabusi", fee: 340 },
-    ];
+    ]; 
 
-    const locationSelect = document.getElementById("delivery-location");
+    let locationSelect = document.getElementById("delivery-location");
+    let feeDisplay = document.getElementById("location-fee"); 
 
-    // Populate location options
-    locations.forEach((location) => {
+        // Populate dropdown
+     locations.forEach((location) => {
         const option = document.createElement("option");
         option.value = location.name;
         option.text = `${location.name} - $${location.fee}`;
         locationSelect.add(option);
     });
+
+    let fee = 0;
+    // Function to update the fee display based on selected location
+    const updateFeeDisplay = () => {
+        const selectedLocation = locationSelect.value;
+   // console.log(' location: ',selectedLocation);
+        const locationData = locations.find((loc) => loc.name === selectedLocation);
+
+        if (locationData) {
+            feeDisplay.textContent = `Delivery Fee: $${locationData.fee}`;
+      //      console.log("Updated fee display:", locationData);
+            fee = locationData.fee;
+        } else {
+            console.error("Location data not found for selected location.");
+            feeDisplay.textContent = "Delivery Fee: $0";
+        }
+    };
+
+    // Display initial fee for the default selection
+    updateFeeDisplay();
+
+    // Event listener for dropdown selection change
+    locationSelect.addEventListener("change", console.log('current fee: $',fee));
+
+      
+    function extractAmount(text) {
+        // Check if the input is a string
+        if (typeof text !== 'string') {
+            console.error('Input must be a string');
+            return null; // Return null if the input is not a string
+        }
+
+        const regex = /\$([\d,]+)/; // Matches dollar amounts
+        const match = text.match(regex); // Get the matched amount
+
+        if (match) {
+            return parseFloat(match[1].replace(/,/g, '')); // Return the amount as a float
+        }
+
+        return null; // Return null if no match is found
+    }
+
+    // Example usage 
+    let amount2 = extractAmount(feeDisplay.textContent); 
+    console.log('fee for deli: ',amount2);  
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -172,7 +218,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         const heightInput = document.getElementById(`input-height-${serviceId}`);
                         const quantityInput = document.getElementById(`input-quantity-${serviceId}`);
                         const totalPriceInput = document.getElementById(`total-price-${serviceId}`);
-
+                        
+                        
+                        let feeDisplay = document.getElementById("location-fee"); 
+                       
+                        
+                        
                         widthInput.addEventListener("input", calculateTotal);
                         heightInput.addEventListener("input", calculateTotal);
                         quantityInput.addEventListener("input", calculateTotal);
