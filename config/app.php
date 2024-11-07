@@ -28,7 +28,11 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    /*  Paynow integration credentials */
+    'paynow_ID' => env('PAYNOW_INTEGRATION_ID'),
+    'paynow_key' => env('PAYNOW_INTEGRATION_KEY'),
     /*
+
     |--------------------------------------------------------------------------
     | Application Debug Mode
     |--------------------------------------------------------------------------

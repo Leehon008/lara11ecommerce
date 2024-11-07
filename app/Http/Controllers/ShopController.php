@@ -28,5 +28,8 @@ class ShopController extends Controller
         return view('product_details',compact('product','rProducts'));
     }
 
+    public function terms($product_slug) {
+       return view('terms');
+    }
 
 }

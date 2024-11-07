@@ -12,7 +12,7 @@
                         <em>Manage Your Items List</em>
                     </span>
                 </a>
-                <a href="checkout.html" class="checkout-steps__item">
+                <a href="{{ route('cart.create.payment') }}" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">02</span>
                     <span class="checkout-steps__item-title">
                         <span>Shipping and Checkout</span>
@@ -140,7 +140,8 @@
                             </div>
                             <div class="mobile_fixed-btn_wrapper">
                                 <div class="button-wrapper container">
-                                    <a href="checkout.html" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
+                                    <a href="{{ route('cart.create.payment') }}"
+                                        class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
                                 </div>
                             </div>
                         </div>

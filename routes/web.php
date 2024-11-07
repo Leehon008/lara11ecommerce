@@ -9,15 +9,13 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\QuotationsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\PromotionController; 
 
 Auth::routes();
-
+ 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/designs', [HomeController::class, 'designs'])->name('frontend.pages.designs');
-// Route::get('/', function () {
-//     return view('frontend.pages.home');
-// });
+
 Route::get('/about', function () {
     return view('frontend.pages.about');
 });
@@ -26,8 +24,7 @@ Route::get('/services', function () {
 });
 Route::get('/contact-us', function () {
     return view('frontend.pages.contact');
-});
-
+}); 
 
 Route::get('/quotation', [QuotationsController::class, 'getQuote'])->name('quotation');
 Route::get('/quotation/get-brands/{categoryId}', [QuotationsController::class, 'getBrandsByCategory']);
@@ -36,6 +33,7 @@ Route::post('/generate-pdf', [QuotationsController::class, 'generatePDF'])->name
 //shop routes
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->name('shop.product.details');
+Route::get('/shop/terms', [ShopController::class, 'terms'])->name('shop.terms');
 
 ////cart routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -43,14 +41,14 @@ Route::post('/cart/add', [CartController::class, 'add_to_cart'])->name('cart.add
 Route::put('/cart/increase-qty/{rowId}', [CartController::class, 'increase_cart_qty'])->name('cart.qty.increase');
 Route::put('/cart/decrease-qty/{rowId}', [CartController::class, 'decrease_cart_qty'])->name('cart.qty.decrease');
 Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item'])->name('cart.item.remove');
+Route::get('/cart/make-payment', [CartController::class, 'create_payment'])->name('cart.create.payment');
+Route::post('/cart/process-payment', [CartController::class, 'store_payment'])->name('cart.process_payment');
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/account-details', [UserController::class, 'editAccount'])->name('user.account-details');
     Route::post('/account-details/update', [UserController::class, 'updateAccount'])->name('user.updateAccount');
-
-
 });
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {

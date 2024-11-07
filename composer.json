@@ -12,6 +12,7 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
+        "paynow/php-sdk": "^1.0",
         "surfsidemedia/shoppingcart": "^1.0"
     },
     "require-dev": {
