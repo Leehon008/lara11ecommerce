@@ -9,18 +9,18 @@
             <div class="mb-6">
                 <label for="email" class="">Email</label>
                 <input type="email" id="email" name="email" class="" placeholder="Email"
-                    value="bestforcreative101@gmail.com">
+                    value="bestofcreative101@gmail.com" readonly>
             </div>
 
             <div class="mb-6">
                 <label for="email" class="">Phone
                     Number</label>
-                <input type="text" id="phone_number" name="phone_number" class="" placeholder="0785149408">
+                <input type="text" id="phone_number" name="phone_number" class="" value="0774444444" readonly>
             </div>
 
             <div class="mb-6">
                 <label for="amount" class="">Amount</label>
-                <input type="number" id="amount" name="amount" class="">
+                <input type="number" id="amount" name="amount" class="" value="1">
             </div>
 
             <button type="submit" class="">Submit</button>
