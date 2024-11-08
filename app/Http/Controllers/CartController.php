@@ -38,7 +38,8 @@ class CartController extends Controller
     
     public function create_payment() {
          $items = Cart::instance('cart')->content();
-        return view('checkout',compact('items')); 
+        // return view('checkout',compact('items')); 
+        return view('paynow.paynow');
     }
 
     public function store_payment(Request $request){
