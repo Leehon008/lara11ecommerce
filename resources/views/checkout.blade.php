@@ -40,31 +40,19 @@
                         </div>
 
                         <div class="row mt-5">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-floating my-3">
-                                    <input type="text" class="form-control" name="name" required="">
+                                    <input type="text" class="form-control" name="name" required=""
+                                        value="{{ Auth::user()->name }} &nbsp; {{ Auth::user()->surname }}">
                                     <label for="name">Full Name *</label>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-floating my-3">
-                                    <input type="text" class="form-control" name="phone" required="">
+                                    <input type="text" class="form-control" name="phone" required=""
+                                        value="{{ Auth::user()->mobile }}">
                                     <label for="phone">Phone Number *</label>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-floating my-3">
-                                    <input type="text" class="form-control" name="zip" required="">
-                                    <label for="zip">Pincode *</label>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-floating mt-3 mb-3">
-                                    <input type="text" class="form-control" name="state" required="">
-                                    <label for="state">State *</label>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -77,25 +65,13 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating my-3">
-                                    <input type="text" class="form-control" name="address" required="">
+                                    <input type="text" class="form-control" name="address" required=""
+                                        value="{{ Auth::user()->address }}">
                                     <label for="address">House no, Building Name *</label>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating my-3">
-                                    <input type="text" class="form-control" name="locality" required="">
-                                    <label for="locality">Road Name, Area, Colony *</label>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-floating my-3">
-                                    <input type="text" class="form-control" name="landmark" required="">
-                                    <label for="landmark">Landmark *</label>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div class="checkout__totals-wrapper">
@@ -145,33 +121,42 @@
                                     </table>
                                 @else
                                     <div class="row">
-                                        <div class="col-md-12 text-center pt-5 tp-5">
+                                        <div class="col-md-12 text-center pt-2 tp-2">
                                             <p>No Items Found in your Cart</p>
-                                            <a href="{{ route('shop.index') }}" class="btn btn-info">Shop Now</a>
                                         </div>
                                     </div>
                                 @endif
                             </div>
                             <div class="checkout__payment-methods">
-                                <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="radio"
-                                        name="checkout_payment_method" id="checkout_payment_method_1" checked>
-                                    <label class="form-check-label" for="checkout_payment_method_1">
-                                        PayNow
-                                        <p class="option-detail">
-                                            Use Paynow to process payments
-                                        </p>
-                                    </label>
-                                </div>
-                                <div class="policy-text">
-                                    Your personal data will be used to process your order, support your experience
-                                    throughout this
-                                    website, and for other purposes described in our <a href="{{ route('shop.terms') }}"
-                                        target="_blank">privacy
-                                        policy</a>.
-                                </div>
+
+                                @if ($items->count() > 0)
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input_fill" type="radio"
+                                            name="checkout_payment_method" id="checkout_payment_method_1" checked>
+                                        <label class="form-check-label" for="checkout_payment_method_1">
+                                            PayNow
+                                            <p class="option-detail">
+                                                Use Paynow to process payments
+                                            </p>
+                                        </label>
+                                    </div>
+                                    <div class="policy-text">
+                                        Your personal data will be used to process your order, support your experience
+                                        throughout this
+                                        website, and for other purposes described in our <a
+                                            href="{{ route('shop.terms') }}" target="_blank">privacy
+                                            policy</a>.
+                                    </div>
                             </div>
                             <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+                        @else
+                            <div class="row">
+                                <div class="col-md-12 text-center pt-2 tp-2">
+                                    <a href="{{ route('shop.index') }}" class="btn btn-info">Shop Now</a>
+                                </div>
+                            </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>
