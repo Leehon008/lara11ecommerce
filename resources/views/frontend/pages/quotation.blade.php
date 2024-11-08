@@ -5,7 +5,7 @@
         <div class="mb-md-1 pb-md-3"></div>
         <section class="product-single container">
 
-            <form id="quotationForm" class="mb-4" action="{{ route('generate.pdf') }}" method="POST">
+            <form id="quotationForm" method="POST" class="mb-4" action="{{ route('generate.pdf') }}">
                 @csrf
                 <div class="card shadow-lg p-4">
                     <!-- Card Header -->
@@ -20,21 +20,26 @@
                             <h4 class="text-center text-uppercase text-danger mb-3">User Details</h4>
                             <input type="hidden" name="quotation_number" id="quotation_number">
                             <input type="hidden" name="date" id="date">
+                            <input type="hidden" name="delivery_fee" id="delivery_fee" value="0">
+
                             <div class="form-label-fixed mb-4">
-                                <label for="company_name" class="form-label">Full Company Name *</label>
-                                <input id="company_name" name="company_name"
-                                    class="form-control form-control-md form-control_gray" required />
+                                <label for="user-fullname" class="form-label">Full Name or Company Name *</label>
+                                <input id="user-fullname" name="user-fullname"
+                                    class="form-control form-control-md form-control_gray" required
+                                    value="{{ Auth::user()->name }} {{ Auth::user()->surname }}" />
                             </div>
                             <div class="row">
                                 <div class="form-label-fixed mb-4 col-md-4">
                                     <label for="user-phone" class="form-label">Phone Number *</label>
                                     <input id="user-phone" name="user-phone"
-                                        class="form-control form-control-md form-control_gray" required />
+                                        class="form-control form-control-md form-control_gray" required
+                                        value="{{ Auth::user()->mobile }}" />
                                 </div>
                                 <div class="form-label-fixed mb-4 col-md-8">
                                     <label for="user-email" class="form-label">Email address *</label>
                                     <input id="user-email" name="user-email"
-                                        class="form-control form-control-md form-control_gray" required />
+                                        class="form-control form-control-md form-control_gray" required
+                                        value="{{ Auth::user()->email }}" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -44,8 +49,6 @@
                                     <!-- Location options will be dynamically populated by JavaScript -->
                                 </select>
                             </div>
-
-                            <p id="location-fee">Delivery Fee: $0</p>
                         </div>
 
                         <!-- Service Selection Section -->
