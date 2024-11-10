@@ -64,15 +64,12 @@
                             <label>Payment Method</label>
                             <span>{{ $order->payment_method }}</span>
                         </div>
-                        <div class="order-info__item">
-                            <label>Payment Poll URL</label>
-                            <span>{{ $order->pollurl }}</span>
-                        </div>
                     </div>
                     <div class="checkout__totals-wrapper">
                         <div class="checkout__totals">
 
                             <h3>Order Details</h3>
+                            <p> Payment Poll URL: <span>{{ $order->pollurl }} </p>
                             <table class="checkout-cart-items">
                                 <thead>
                                     <tr>
@@ -84,7 +81,7 @@
                                     @foreach ($items as $item)
                                         <tr>
                                             <td>{{ $item->name }}</td>
-                                            <td>${{ $item->subTotal() }}</td>
+                                            <td align="right">${{ $item->subTotal() }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -93,7 +90,7 @@
                                 <tbody>
                                     <tr>
                                         <th>SUBTOTAL</th>
-                                        <td>$62.40</td>
+                                        <td>{{ $order->subTotal }}</td>
                                     </tr>
                                     <tr>
                                         <th>SHIPPING</th>
@@ -101,11 +98,11 @@
                                     </tr>
                                     <tr>
                                         <th>VAT</th>
-                                        <td>$19</td>
+                                        <td>{{ $order->tax }}</td>
                                     </tr>
                                     <tr>
                                         <th>TOTAL</th>
-                                        <td>${{ Cart::instance('cart')->total() }}</td>
+                                        <td>${{ $order->amount }}</td>
                                     </tr>
                                 </tbody>
                             </table>
