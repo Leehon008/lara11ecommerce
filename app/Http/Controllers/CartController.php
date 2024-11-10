@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers; 
+namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -45,11 +45,6 @@ class CartController extends Controller
 
     public function store_payment(Request $request)
     {
-        // Default message for response
-        $testMsg = '';
-        // Get cart items
-        $items = Cart::instance('cart')->content();
-
         // Validate the input
         $request->validate([
             'email' => 'required|email',
@@ -57,9 +52,14 @@ class CartController extends Controller
             'amount' => 'required|numeric',
         ]);
 
+        // Get the logged-in user
+        $user = Auth::user(); // Retrieve the authenticated user
+        // Get cart items
+        $items = Cart::instance('cart')->content();
+
         // Data from the form
-        $email = $request->email;
-        $phone_number = $request->phone_number;
+        $email = 'bestofcreative101@gmail.com'; //$request->email;
+        $phone_number = '0771111111'; //$request->phone_number;
         $amount = $request->amount;
         $wallet = 'ecocash'; // this can be visa/mastercard/innbucks depending on what has been set by your Paynow subscription
 
@@ -72,7 +72,7 @@ class CartController extends Controller
         );
 
         // Create the payment
-        $payment = $paynow->createPayment('Testing Fee', $email);
+        $payment = $paynow->createPayment('Payment via Paynow Details', $email);
         $payment->add('Fee', $amount);
 
         // Send mobile payment request
@@ -81,26 +81,54 @@ class CartController extends Controller
         // Check if the payment request was successful
         if ($response->success()) {
             // Get useful information from the response
-            $paynowreference = $response->data()['paynowreference'];  // Accessing paynowreference from the data method
+            $paynowreference = $response->data()['paynowreference']; 
             $link = $response->redirectUrl();
             $pollUrl = $response->pollUrl();
             $instructions = $response->instructions();
 
-            // Build the message with line breaks
-            $testMsg = 'Payment successful!<br>';
-            $testMsg .= 'Paynow Reference: ' . $paynowreference . '<br>';
-            $testMsg .= 'Redirect link: ' . $link . '<br>';
-            $testMsg .= 'Poll URL: ' . $pollUrl . '<br>';
-            $testMsg .= 'Instructions: ' . $instructions . '<br>';
+            // Poll the transaction status
+            $statusResponse = $paynow->pollTransaction($pollUrl); // This returns a StatusResponse object
 
+            // Check if the polling request was successful
+            if ($statusResponse->status() == 'sent') { 
+                $statusData = $statusResponse->data();
+                // Save the order to the database, linking it to the logged-in user
+                $order = Order::create([
+                    'user_id' => $user->id, // Link the order to the logged-in user
+                    'paynowreference' => $statusData['paynowreference'],
+                    'reference' => $statusData['reference'],
+                    'amount' => $statusData['amount'],
+                    'status' => $statusData['status'],
+                    'pollurl' => $statusData['pollurl']
+                ]);
+
+                // Build the message with line breaks
+                $testMsg = 'Payment successful!<br>';
+                $testMsg .= 'Paynow Reference: ' . $statusData['paynowreference'] . '<br>';
+                $testMsg .= 'Redirect link: ' . $link . '<br>';
+                $testMsg .= 'Poll URL: ' . $pollUrl . '<br>';
+                $testMsg .= 'Instructions: ' . $instructions . '<br>';
+            } else {
+                // Handle the failure case (if transaction status is not OK)
+                $testMsg = 'Transaction failed: ' . $statusResponse->errors();
+            }
             // Return the view with response data and cart items
-            return view('order_confirmation', compact('items', 'testMsg'));
+            // return view('order_confirmation', compact('items', 'testMsg'));
+            return $testMsg;
         }
 
         // If payment was not successful, handle failure and pass error message
-        $testMsg = 'Payment failed: ' . $response->message();  // You can adjust this as needed to show a better error message
-        
+        $testMsg = 'Payment failed: ' . $response->message();  
         // Return the view with failure message
-        return view('order_confirmation', compact('items', 'testMsg'));
-    } 
+        // return view('order_confirmation', compact('items', 'testMsg'));
+        return $testMsg;
+    }
+
+    public function confirm_payment() {
+         $items = Cart::instance('cart')->content();
+        return view('order_confirmation',compact('items'));  
+        // return view('order_confirmation');  
+        // dd($request);
+    }   
+
 }
