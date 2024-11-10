@@ -104,13 +104,18 @@ class CartController extends Controller
             } else {
                 // Handle the failure case (if transaction status is not sent)
                 $testMsg = 'Transaction failed: ' . $statusResponse->errors();
+                return redirect()->route('cart.index')->with([
+                    'items' => $items,
+                    'testMsg' => $testMsg
+                ]);
             } 
         }
 
         // If payment was not successful, handle failure and pass error message
-        $testMsg = 'Payment failed: ' . $response->errors();  
-        // Return the view with failure message
-        // return view('order_confirmation', compact('items','order', 'testMsg'));
-        dd($response) ;
+        $testMsg = 'Payment failed: ' . $response->errors(); 
+        return redirect()->route('cart.index')->with([
+            'items' => $items,
+            'testMsg' => $testMsg
+        ]); 
     }
 }

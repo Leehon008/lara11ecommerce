@@ -3,7 +3,9 @@
     <main class="pt-90">
         <div class="mb-4 pb-4"></div>
         <section class="shop-checkout container">
-            </p>
+            @if (session('testMsg'))
+                <p class="" style="text-align: center;color:red;"><strong>{!! session('testMsg') !!}</strong></p>
+            @endif
             <h2 class="page-title">Cart</h2>
             <div class="checkout-steps">
                 <a href="javascript:void(0)" class="checkout-steps__item active">
@@ -90,7 +92,7 @@
                                             <form action="{{ route('cart.item.remove', $item->rowId) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
-                                                <a href="#" class="remove-cart">
+                                                <div class="qty-control__remove">
                                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
                                                         xmlns="http://www.w3.org/2000/svg">
                                                         <path
@@ -98,7 +100,7 @@
                                                         <path
                                                             d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
                                                     </svg>
-                                                </a>
+                                                </div>
                                             </form>
                                         </td>
                                     </tr>
@@ -167,6 +169,9 @@
                 $(this).closest('form').submit();
             });
             $(".qty-control__reduce").on("click", function() {
+                $(this).closest('form').submit();
+            });
+            $(".qty-control__remove").on("click", function() {
                 $(this).closest('form').submit();
             });
         });
