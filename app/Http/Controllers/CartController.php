@@ -43,7 +43,7 @@ class CartController extends Controller
     }
 
     public function store_payment(Request $request){
-        //validate the input
+        $testMsg = ''; 
         $request->validate([
             'email' => 'required',
             'phone_number' => 'required|starts_with:07',
@@ -61,23 +61,43 @@ class CartController extends Controller
             '19516',
             '5be861d3-8782-4468-8176-0d280e99f2c3',
             route('user.index'),
-            route('user.index'),
+            'http://localhost:8000/cart/return?gateway=paynow',
         );
 
         $payment = $paynow->createPayment('Testing Fee', $email);
         $payment->add('Fee', $amount);
         $response = $paynow->sendMobile($payment, $phone_number, $wallet);
+        $items = Cart::instance('cart')->content();
 
-        if($response->success()) {
-            // Or if you prefer more control, get the link to redirect the user to, then use it as you see fit
+        // Check if the payment request was successful
+        if ($response->success()) {
+            // Get useful information from the response
+           $paynowreference = $response->data()['paynowreference'];
             $link = $response->redirectUrl();
             $pollUrl = $response->pollUrl();
-           
-            // Get the instructions
-            $instructions = $response->instructions();
+            $instructions = $response->instructions(); 
+          
+        // Build the message with line breaks 
+            $testMsg = 'Payment successful!<br>';
+            $testMsg .= 'Paynow Reference: ' . $paynowreference . '<br>';
+            $testMsg = 'Payment successful!<br>';
+            // $testMsg = 'Payment Reference : '. $response->paynowreference();
+            $testMsg .= 'Redirect link: ' . $link . '<br>';
+            $testMsg .= 'Poll URL: ' . $pollUrl . '<br>';
+            $testMsg .= 'Instructions: ' . $instructions . '<br>';
+
+            
+            // Check the status of the transaction
+            $status = $paynow->pollTransaction($pollUrl);
+            //  return view('cart', compact('items', 'testMsg'));
+            dd($status);
         }
 
-        dd($response);
-        // return $response;
+        // If payment was not successful, handle failure and pass error message
+        $testMsg = 'Payment failed: ' . $response->message();  // You can adjust this as needed to show a better error message
+        // Return the view with failure message
+        // return view('cart', compact('items', 'testMsg'));
+        dd($response->data());
+        // dd($testMsg);
     }
 }

@@ -27,7 +27,7 @@
                     </span>
                 </a>
             </div>
-            {{-- <form name="checkout-form" action="https://uomo-html.flexkitux.com/Demo3/shop_order_complete.html"> --}}
+
             <form name="checkout-form" action="{{ route('cart.process_payment') }}" method="POST">
                 <div class="checkout-form">
                     <div class="billing-info__wrapper">

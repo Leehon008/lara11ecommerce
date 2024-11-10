@@ -3,7 +3,6 @@
     <div class="">
         <a href="{{ route('user.index') }}" type="button" class="">Return
             Home</a>
-
         <form method="POST" class="form-new-product form-style-1" action="{{ route('cart.process_payment') }}">
             @csrf
             <div class="mb-6">
@@ -15,7 +14,7 @@
             <div class="mb-6">
                 <label for="email" class="">Phone
                     Number</label>
-                <input type="text" id="phone_number" name="phone_number" class="" value="0774444444" readonly>
+                <input type="text" id="phone_number" name="phone_number" class="" value="0771111111" readonly>
             </div>
 
             <div class="mb-6">
