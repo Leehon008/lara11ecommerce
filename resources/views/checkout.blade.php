@@ -29,6 +29,7 @@
             </div>
 
             <form name="checkout-form" action="{{ route('cart.process_payment') }}" method="POST">
+                {{-- @csrf --}}
                 <div class="checkout-form">
                     <div class="billing-info__wrapper">
                         <div class="row">
@@ -148,7 +149,9 @@
                                             policy</a>.
                                     </div>
                             </div>
-                            <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+                            <button type="submit" class="btn btn-primary btn-checkout">PLACE ORDER</button>
+
+                            {{-- <a href="{{ route('cart.confirm_payment') }}" class="btn btn-info">Summary Now</a> --}}
                         @else
                             <div class="row">
                                 <div class="col-md-12 text-center pt-2 tp-2">
