@@ -28,8 +28,9 @@
                 </a>
             </div>
 
-            <form name="checkout-form" action="{{ route('cart.process_payment') }}" method="POST">
-                {{-- @csrf --}}
+            {{-- <form name="checkout-form" action="{{ route('cart.process_payment') }}" method="POST"> --}}
+            <form method="POST" class="form-new-product form-style-1" action="{{ route('cart.process_payment') }}">
+                @csrf
                 <div class="checkout-form">
                     <div class="billing-info__wrapper">
                         <div class="row">
@@ -52,15 +53,24 @@
                             <div class="col-md-4">
                                 <div class="form-floating my-3">
                                     <input type="text" class="form-control" name="phone" required=""
-                                        value="{{ Auth::user()->mobile }}">
+                                        value="0771111111" readonly>
+                                    {{-- value="{{ Auth::user()->mobile }}"> --}}
                                     <label for="phone">Phone Number *</label>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-floating my-3">
-                                    <input type="text" class="form-control" name="city" required="">
+                                    <input type="text" class="form-control" name="city" value="harare" required>
                                     <label for="city">Town / City *</label>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating my-3">
+                                    <input type="email" id="email" class="form-control" name="email" class=""
+                                        placeholder="Email" value="bestofcreative101@gmail.com" readonly>
+                                    <label for="city">Email Address *</label>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>

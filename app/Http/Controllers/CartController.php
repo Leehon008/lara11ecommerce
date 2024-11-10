@@ -111,8 +111,8 @@ class CartController extends Controller
                 $testMsg .= 'Poll URL: ' . $pollUrl . '<br>';
                 $testMsg .= 'Instructions: ' . $instructions . '<br>';
                 $testMsg .= 'order: ' . $order . '<br>';
-                // return view('order_confirmation', compact('items','order','request', 'testMsg')); 
-                dd($subTotal);
+                return view('order_confirmation', compact('items','order','request', 'testMsg')); 
+                // dd($subTotal);
             } else {
                 // Handle the failure case (if transaction status is not sent)
                 $testMsg = 'Transaction failed: ' . $statusResponse->errors();
