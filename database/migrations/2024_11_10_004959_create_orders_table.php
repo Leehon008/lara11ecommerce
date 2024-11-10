@@ -17,9 +17,9 @@ return new class extends Migration
              $table->string('paynowreference')->unique(); 
             $table->string('reference'); // e.g., "Testing Fee"
             $table->decimal('amount', 10, 2);  
-            $table->string('status'); // Transaction status (e.g., "Sent", "Completed", etc.)
+            $table->string('status'); // Transaction status (e.g., "Sent", "Completed", etc.) 
             $table->string('pollurl'); 
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 
