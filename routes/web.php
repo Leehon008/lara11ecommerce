@@ -12,7 +12,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PromotionController; 
 
 Auth::routes();
- 
+Route::get('/test-email', function () {
+    Mail::raw('This is a test email from Laravel.', function ($message) {
+        $message->to('no-reply@bestforcreative.co.zw')
+                ->subject('Test Email');
+    });
+
+    return 'Email sent successfully!';
+});
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/designs', [HomeController::class, 'designs'])->name('frontend.pages.designs');
 
@@ -90,10 +97,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('admin.promotion_delete'); // Delete promotion
     Route::get('/admin/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('admin.promotion_edit'); // Edit promotion
     Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update'); // Update promotion
-    
     Route::post('/admin/promotions', [PromotionController::class, 'store'])->name('promotions.store');
 
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
-
-
 });
