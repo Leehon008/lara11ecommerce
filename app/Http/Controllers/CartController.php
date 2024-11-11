@@ -51,7 +51,7 @@ class CartController extends Controller
         // Data from the form
         $email = 'bestofcreative101@gmail.com'; //$request->email;
         $phone_number = '0771111111'; //$request->phone_number;
-        $amount =  Cart::instance('cart')->total();
+        $amount =  '232';//Cart::instance('cart')->total();
         $subTotal =   Cart::instance('cart')->subTotal();
         $tax =    Cart::instance('cart')->tax();
         $wallet = 'ecocash'; // this can be visa/mastercard/innbucks depending on what has been set by your Paynow subscription
@@ -85,7 +85,15 @@ class CartController extends Controller
 
             // Check if the polling request was successful
             if ($statusResponse->status() == 'sent') {  
-                
+                $cartItemsData = $items->map(function ($item) {
+                    return [
+                        'name' => $item->name,
+                        'qty' => $item->qty,
+                        'price' => $item->price, 
+                        'subtotal' => $item->subTotal() ,
+                    ];
+                });
+
                 $order = Order::create([
                     'user_id' => $user->id, //logged in user
                     'paynowreference' => $statusData['paynowreference'],
@@ -95,27 +103,38 @@ class CartController extends Controller
                     'tax' => $tax,
                     'status' => $statusData['status'],
                     'payment_method'=>$wallet,
-                    'pollurl' => $statusData['pollurl']
+                    'pollurl' => $statusData['pollurl'],
+                    'cart_items' => json_encode($cartItemsData) // Store cart items as a JSON string
                 ]);
 
                 // Build the message with line breaks
-                $testMsg = 'Payment successful!'. $order->paynowreference;
-                return view('order_confirmation', compact('items','order',  'testMsg'));  
-            } else {
-                // Handle the failure case (if transaction status is not sent)
-                $testMsg = 'Transaction failed: ' . $statusResponse->errors();
-                return redirect()->route('cart.index')->with([
-                    'items' => $items,
-                    'testMsg' => $testMsg
-                ]);
-            } 
+                $testMsg = 'Payment for ' .'<br>'; 
+                $testMsg .= 'Order '. $order->id .'  is completed!' ; 
+                  
+            // Store the order and cart items in the session
+            session()->put('order', $order);
+            session()->put('cart_items', $items);
+            session()->put('test_msg', $testMsg);
+            Cart::destroy();
+            return redirect()->route('order.confirm');
+        } else { 
+            session()->put('test_msg', 'Transaction failed: ' . $statusResponse->errors());
+            return redirect()->route('cart.index');
         }
-
-        // If payment was not successful, handle failure and pass error message
-        $testMsg = 'Payment failed: ' . $response->errors(); 
-        return redirect()->route('cart.index')->with([
-            'items' => $items,
-            'testMsg' => $testMsg
-        ]); 
     }
+
+    // If payment was not successful, handle failure and pass error message
+    session()->put('test_msg', 'Payment failed: ' . $response->message());  
+    return redirect()->route('cart.index'); 
+    }
+
+    public function showOrderConfirmation()
+    {
+        // Retrieve the session data
+        $order = session()->get('order');
+        $items = session()->get('cart_items');
+        $testMsg = session()->get('test_msg'); 
+        return view('order_confirmation', compact('order', 'items', 'testMsg'));
+    }
+
 }

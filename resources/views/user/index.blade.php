@@ -3,7 +3,7 @@
     <main class="pt-90">
         <div class="mb-4 pb-4"></div>
         <section class="my-account container">
-            <h3 class="page-title text-center">{{ Auth::user()->name }} &nbsp; {{ Auth::user()->surname }}</h3>
+            <h3 class="page-title text-center">{{ Auth::user()->name }} {{ Auth::user()->surname }}</h3>
             <div class="row">
                 <div class="col-lg-2">
                     @include('user.account-nav')
@@ -16,97 +16,36 @@
                                     <th>Order ID</th>
                                     <th>Order Date</th>
                                     <th>Status</th>
-                                    <th>Total Amount</th>
                                     <th>Items</th>
                                     <th>Payment Method</th>
+                                    <th>Total Amount</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
-                                <tr>
-                                    <td>102393</td>
-                                    <td>12 Dec 2024</td>
-                                    <td class="badge bg-danger">Pending</td>
-                                    <td>400</td>
-                                    <td>5</td>
-                                    <td>Cash on Delivery</td>
-                                    <td>
-                                        <a href="#" class="btn btn-info">
-                                            <i class="fa fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>102393</td>
-                                    <td>12 Dec 2024</td>
-                                    <td class="badge bg-danger">Pending</td>
-                                    <td>400</td>
-                                    <td>5</td>
-                                    <td>Cash on Delivery</td>
-                                    <td>
-                                        <a href="#" class="btn btn-info">
-                                            <i class="fa fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>102393</td>
-                                    <td>12 Dec 2024</td>
-                                    <td class="badge bg-danger">Pending</td>
-                                    <td>400</td>
-                                    <td>5</td>
-                                    <td>Cash on Delivery</td>
-                                    <td>
-                                        <a href="#" class="btn btn-info">
-                                            <i class="fa fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>102393</td>
-                                    <td>12 Dec 2024</td>
-                                    <td class="badge bg-danger">Pending</td>
-                                    <td>400</td>
-                                    <td>5</td>
-                                    <td>Cash on Delivery</td>
-                                    <td>
-                                        <a href="#" class="btn btn-info">
-                                            <i class="fa fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>102393</td>
-                                    <td>12 Dec 2024</td>
-                                    <td class="badge bg-danger">Pending</td>
-                                    <td>400</td>
-                                    <td>5</td>
-                                    <td>Cash on Delivery</td>
-                                    <td>
-                                        <a href="#" class="btn btn-info">
-                                            <i class="fa fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
-                             
-                                {{-- uncomment and replce content above --}}
-                                {{-- @foreach ($orders as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->order_date }}</td>
-                                    <td>{{ $order->status }}</td>
-                                    <td>{{ $order->total_amount }}</td>
-                                    <td>{{ $order->items_count }}</td>
-                                    <td>
-                                        <a href="{{ route('order.view', $order->id) }}" class="btn btn-info">
-                                            <i class="fa fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach --}}
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td align="center">{{ $order->id }}</td>
+                                        <td>{{ $order->created_at->format('d M, Y') }}</td>
+                                        <td class="badge" style="background-color: rgb(38, 144, 38)">
+                                            {{ ucfirst($order->status) }}</td>
+                                        <td>{{ $order->cart_item_count }}</td>
+                                        <td>{{ $order->payment_method }}</td>
+                                        <td align="center">${{ number_format(floatval($order->amount), 2) }}</td>
+                                        <td>
+                                            <a href="{{ route('user.order.view', ['id' => $order->id]) }}">
+                                                <i class="fa fa-eye"></i> View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+
+                        <!-- Pagination links -->
+                        <div class="pagination-wrapper mt-4">
+                            {{ $orders->links() }} <!-- This will generate pagination links -->
+                        </div>
                         <script>
                             $(document).ready(function() {
                                 $('#ordersTable').DataTable({
@@ -117,7 +56,7 @@
                                 });
                             });
                         </script>
-                        
+
                     </div>
                 </div>
             </div>

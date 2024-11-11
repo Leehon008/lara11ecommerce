@@ -3,21 +3,34 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class UserController extends Controller
 {
-    public function index() {
-        // $users = User::paginate(10);
-        // return view('admin.users',compact('users'));
-        return view('user.index');
+    public function index()
+    { 
+        $orders = Order::orderby('id', 'Desc')->paginate(10); 
+        foreach ($orders as $order) { 
+            if ($order->cart_items) { 
+               $cartItems = json_decode($order->cart_items, true); 
+                $order->cart_item_count = count($cartItems);  
+            } else {
+                $order->cart_item_count = 0;  
+            }
+        } 
+        return view('user.index', compact('orders'));
+    }
+
+     public function view_order($id)
+    {
+        $order = Order::find($id);
+        return view('user.order_view', compact('order'));
     }
 
     public function editAccount()
     {
         // Retrieve the authenticated user
         $user = auth()->user();
-        
-        // Return the view with the user data
         return view('user.account-details', compact('user'));
         
     }

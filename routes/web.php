@@ -37,11 +37,14 @@ Route::get('/shop/terms', [ShopController::class, 'terms'])->name('shop.terms');
 
 ////cart routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart/order', [CartController::class, 'index'])->name('cart.index1');
+Route::get('/cart/make-payment', [CartController::class, 'create_payment'])->name('cart.create.payment');
+Route::get('/cart/order_confirmation', [CartController::class, 'showOrderConfirmation'])->name('cart.order.confirmation');// Route to display the order confirmation
+Route::get('/cart/order-confirm', [CartController::class, 'showOrderConfirmation'])->name('order.confirm');
 Route::post('/cart/add', [CartController::class, 'add_to_cart'])->name('cart.add');
 Route::put('/cart/increase-qty/{rowId}', [CartController::class, 'increase_cart_qty'])->name('cart.qty.increase');
 Route::put('/cart/decrease-qty/{rowId}', [CartController::class, 'decrease_cart_qty'])->name('cart.qty.decrease');
 Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item'])->name('cart.item.remove');
-Route::get('/cart/make-payment', [CartController::class, 'create_payment'])->name('cart.create.payment');
 Route::post('/cart/process-payment', [CartController::class, 'store_payment'])->name('cart.process_payment');
 
 
@@ -49,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/account-details', [UserController::class, 'editAccount'])->name('user.account-details');
     Route::post('/account-details/update', [UserController::class, 'updateAccount'])->name('user.updateAccount');
+    Route::get('/user/order/{id}/view', [UserController::class, 'view_order'])->name('user.order.view');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {
