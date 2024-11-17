@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        integrity="sha384-DyZ88mC6Up2uqS1d4+N49Zqzli37atHiC4CxReIcIt+S5v4fajp6HiFddJ8ZXzJf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS1d4+N49Zqzli37atHiC4CxReIcIt+S5v4fajp6HiFddJ8ZXzJf" crossorigin="anonymous">
 
     <title>Best for Creative | Quotation PDF</title>
     <style>
@@ -16,7 +15,7 @@
         }
 
         h3 {
-            color: #f9db63;
+            color: #e62222;;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -30,8 +29,7 @@
             padding-bottom: 10px;
         }
 
-        .company-info,
-        .quotation-details {
+        .company-info, .quotation-details {
             width: 48%;
         }
 
@@ -56,8 +54,7 @@
             margin: 20px 0;
         }
 
-        th,
-        td {
+        th, td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
@@ -71,7 +68,7 @@
         .total-amount {
             font-weight: bold;
             font-size: 1.2em;
-            color: #22e653;
+            /* color: #262424; */
             text-align: right;
         }
     </style>
@@ -81,11 +78,11 @@
     <h3>Best for Creative Quotation Number: {{ $data['quotation_number'] }}</h3>
     <div class="quotation-header">
         <div style="text-align:center;">
-            <span> sales@bestforcreative.co.zw &nbsp;&nbsp;&nbsp; +263 77 323 5698 &nbsp;&nbsp;&nbsp; 19034 Chitungwiza
-                Industry</span>
+            {{-- <img src="{{ $logo }}" name="logo" alt="BFC Company Logo"> --}}
+            <span> sales@bestforcreative.co.zw &nbsp;&nbsp;&nbsp; +263 77 323 5698  &nbsp;&nbsp;&nbsp; 19034 Chitungwiza Industry</span>
         </div>
         <div class="quotation-details" style="margin-top:5px;margin-bottom:25px;">
-            <h3>Client Details</h3>
+            <h4 >CLIENT DETAILS</h4>
             <div>{{ $data['date'] }}</div>
             <div>{{ $data['user-fullname'] }}</div>
             <div>{{ $data['delivery-location'] }}</div>
@@ -121,9 +118,10 @@
     </table>
 
     <!-- Delivery Fee and VAT -->
-    <p>Delivery Fee: ${{ $data['delivery_fee'] }}</p>
-    <p>VAT (15%): ${{ $data['vat'] }}</p>
+    <p>Delivery Fee: ${{ $data['deliveryFee'] }}</p>
 
+    <p>VAT (15%): ${{ $data['vat'] }}</p>
+    
     <!-- Total Amount -->
     <p class="total-amount">Total Amount: ${{ $data['total_amount'] }}</p>
 </body>

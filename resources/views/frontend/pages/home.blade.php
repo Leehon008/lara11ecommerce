@@ -158,7 +158,7 @@
 
                                         <div class="pc__info position-relative">
                                             <h6 class="pc__title">
-                                                <a href="##">Sliding Gates</a>
+                                                <a href="##">Pedestrian Gates</a>
                                             </h6>
 
                                         </div>
@@ -214,8 +214,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="category-banner__item border-radius-10 mb-5">
-                            <img loading="lazy" class="h-auto" src="{{ asset('assets/images/about-us.jpg') }}"
-                                width="690" height="665" alt="" />
+                            <img loading="lazy" class="h-auto img-fluid" src="{{ asset('assets/images/about-us.jpg') }}"
+                                width="700" height="350" alt="Best for Creative" />
 
                             <div class="category-banner__item-content">
                                 <h3 class="mb-0">ABOUT US</h3>

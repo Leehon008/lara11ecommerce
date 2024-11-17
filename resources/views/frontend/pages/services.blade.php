@@ -140,6 +140,21 @@
                 </h6>
               </div>
             </div>
+            <div class="swiper-slide product-card">
+              <div class="pc__img-wrapper">
+                <a href="#">
+                  <img loading="lazy" src="{{ asset('assets/images/structural.jpg') }}" width="330" height="400"
+                    alt="Best for Creative" class="pc__img" />
+                </a>
+              </div>
+
+              <div class="pc__info position-relative">
+
+                <h6 class="pc__title">
+                  <a href="details.html">Structural Engineering</a>
+                </h6>
+              </div>
+            </div>
 
             <div class="swiper-slide product-card">
               <div class="pc__img-wrapper">

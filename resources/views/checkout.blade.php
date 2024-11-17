@@ -8,7 +8,7 @@
                 <a href="{{ route('cart.index') }}" class="checkout-steps__item active">
                     <span class="checkout-steps__item-number">01</span>
                     <span class="checkout-steps__item-title">
-                        <span>Shopping Bag</span>
+                        <span>Cart</span>
                         <em>Manage Your Items List</em>
                     </span>
                 </a>
@@ -27,9 +27,15 @@
                     </span>
                 </a>
             </div>
+        <form method="POST" action="{{ route('handlePayment') }}">
+            @csrf
+            <!-- Form fields -->
+            <button type="submit">Submit Payment</button>
+        </form>
 
-            {{-- <form name="checkout-form" action="{{ route('cart.process_payment') }}" method="POST"> --}}
-            <form method="POST" class="form-new-product form-style-1" action="{{ route('cart.process_payment') }}">
+           
+
+            <form method="POST" class="form-new-product form-style-1" action="{{ route('paynow') }}">
                 @csrf
                 <div class="checkout-form">
                     <div class="billing-info__wrapper">
@@ -45,7 +51,7 @@
                             <div class="col-md-4">
                                 <div class="form-floating my-3">
                                     <input type="text" class="form-control" name="name" required=""
-                                        value="{{ Auth::user()->name }} &nbsp; {{ Auth::user()->surname }}">
+                                        value="{{ Auth::user()->name }} &nbsp; {{ Auth::user()->surname }}" readonly>
                                     <label for="name">Full Name *</label>
                                     <span class="text-danger"></span>
                                 </div>
@@ -53,9 +59,18 @@
                             <div class="col-md-4">
                                 <div class="form-floating my-3">
                                     <input type="text" class="form-control" name="phone" required=""
-                                        value="0771111111" readonly>
-                                    {{-- value="{{ Auth::user()->mobile }}"> --}}
+                                        value="{{ Auth::user()->mobile }}" readonly>
+                                    <!--value="0771111111"-->
                                     <label for="phone">Phone Number *</label>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-floating my-3">
+                                    <input type="email" id="email" class="form-control" name="email" class=""
+                                        placeholder="Email" value="{{ Auth::user()->email }}" readonly>
+                                    <label for="city">Email Address *</label>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -66,19 +81,11 @@
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-floating my-3">
-                                    <input type="email" id="email" class="form-control" name="email" class=""
-                                        placeholder="Email" value="bestofcreative101@gmail.com" readonly>
-                                    <label for="city">Email Address *</label>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="form-floating my-3">
                                     <input type="text" class="form-control" name="address" required=""
                                         value="{{ Auth::user()->address }}">
-                                    <label for="address">House no, Building Name *</label>
+                                    <label for="address">Address *</label>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -116,10 +123,7 @@
                                                 <th>Subtotal</th>
                                                 <td>${{ Cart::instance('cart')->subTotal() }}</td>
                                             </tr>
-                                            <tr>
-                                                <th>Shipping</th>
-                                                <td> Free </td>
-                                            </tr>
+                                            
                                             <tr>
                                                 <th>VAT</th>
                                                 <td>${{ Cart::instance('cart')->tax() }}</td>
@@ -145,30 +149,42 @@
                                         <input class="form-check-input form-check-input_fill" type="radio"
                                             name="checkout_payment_method" id="checkout_payment_method_1" checked>
                                         <label class="form-check-label" for="checkout_payment_method_1">
-                                            PayNow
+                                            Pay Online
                                             <p class="option-detail">
                                                 Use Paynow to process payments
                                             </p>
                                         </label>
                                     </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input_fill" type="radio"
+                                            name="checkout_payment_method" id="pay_on_delivery" >
+                                        <label class="form-check-label" for="checkout_payment_method_1">
+                                            Pay On Delivery
+                                            <!--<p class="option-detail">-->
+                                            <!--    Pay on delivery-->
+                                            <!--</p>-->
+                                        </label>
+                                    </div>
                                     <div class="policy-text">
-                                        Your personal data will be used to process your order, support your experience
-                                        throughout this
-                                        website, and for other purposes described in our <a
-                                            href="{{ route('shop.terms') }}" target="_blank">privacy
-                                            policy</a>.
+                                        Your personal data will be used to process your order. <a
+                                            href="#" target="_blank">Privacy Policy</a>.
                                     </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-checkout">PLACE ORDER</button>
 
-                            {{-- <a href="{{ route('cart.confirm_payment') }}" class="btn btn-info">Summary Now</a> --}}
-                        @else
                             <div class="row">
                                 <div class="col-md-12 text-center pt-2 tp-2">
-                                    <a href="{{ route('shop.index') }}" class="btn btn-info">Shop Now</a>
+                                   
+                                    <button type="submit" class="btn btn-primary btn-checkout">PLACE ORDER</button>
                                 </div>
                             </div>
-                            @endif
+
+                                @else
+                                <div class="row">
+                                    <div class="col-md-12 text-center pt-2 tp-2">
+                                        <a href="{{ route('shop.index') }}" class="btn btn-info">Shop Now</a>
+                                    </div>
+                                </div>
+                                @endif
 
                         </div>
                     </div>
@@ -176,4 +192,5 @@
             </form>
         </section>
     </main>
+
 @endsection

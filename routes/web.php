@@ -7,19 +7,30 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\QuotationsController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PromotionController; 
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\PaymentController;
+use Paynow\Payments\Paynow;
 
 Auth::routes();
-Route::get('/test-email', function () {
-    Mail::raw('This is a test email from Laravel.', function ($message) {
-        $message->to('no-reply@bestforcreative.co.zw')
-                ->subject('Test Email');
-    });
 
-    return 'Email sent successfully!';
-});
+// Display forgot password form
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+
+// Handle sending reset link email
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+
+// Show reset password form
+Route::get('/reset-password', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+
+// Handle password update
+Route::post('/reset-password', [ForgotPasswordController::class, 'updatePassword'])->name('password.update');
+
+
+
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/designs', [HomeController::class, 'designs'])->name('frontend.pages.designs');
 
@@ -42,25 +53,44 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->name('shop.product.details');
 Route::get('/shop/terms', [ShopController::class, 'terms'])->name('shop.terms');
 
-////cart routes
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::get('/cart/order', [CartController::class, 'index'])->name('cart.index1');
-Route::get('/cart/make-payment', [CartController::class, 'create_payment'])->name('cart.create.payment');
-Route::get('/cart/order_confirmation', [CartController::class, 'showOrderConfirmation'])->name('cart.order.confirmation');// Route to display the order confirmation
-Route::get('/cart/order-confirm', [CartController::class, 'showOrderConfirmation'])->name('order.confirm');
-Route::post('/cart/add', [CartController::class, 'add_to_cart'])->name('cart.add');
-Route::put('/cart/increase-qty/{rowId}', [CartController::class, 'increase_cart_qty'])->name('cart.qty.increase');
-Route::put('/cart/decrease-qty/{rowId}', [CartController::class, 'decrease_cart_qty'])->name('cart.qty.decrease');
-Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item'])->name('cart.item.remove');
-Route::post('/cart/process-payment', [CartController::class, 'store_payment'])->name('cart.process_payment');
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/account-details', [UserController::class, 'editAccount'])->name('user.account-details');
     Route::post('/account-details/update', [UserController::class, 'updateAccount'])->name('user.updateAccount');
+    ////cart routes
+    
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add', [CartController::class, 'add_to_cart'])->name('cart.add');
+    Route::put('/cart/increase-qty/{rowId}', [CartController::class, 'increase_cart_qty'])->name('cart.qty.increase');
+    Route::put('/cart/decrease-qty/{rowId}', [CartController::class, 'decrease_cart_qty'])->name('cart.qty.decrease');
+    Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item'])->name('cart.item.remove');
+    Route::get('/cart/make-payment', [CartController::class, 'create_payment'])->name('cart.create.payment');
+    Route::post('/cart/process-payment', [CartController::class, 'store_payment'])->name('cart.process_payment');
+    
+    Route::get('/cart/order', [CartController::class, 'index'])->name('cart.index1');
+    Route::get('/cart/order_confirmation', [CartController::class, 'showOrderConfirmation'])->name('cart.order.confirmation');
+    Route::get('/cart/order-confirm', [CartController::class, 'showOrderConfirmation'])->name('order.confirm');
     Route::get('/user/order/{id}/view', [UserController::class, 'view_order'])->name('user.order.view');
+    
+    
 });
+
+//make payment
+Route::get('/test-env', function() {
+    return [
+        'PAYNOW_INTEGRATION_ID' => env('PAYNOW_INTEGRATION_ID'),
+        'PAYNOW_INTEGRATION_KEY' => env('PAYNOW_INTEGRATION_KEY'),
+        'PAYNOW_RESULT_URL' => env('PAYNOW_RESULT_URL'),
+        'PAYNOW_RETURN_URL' => env('PAYNOW_RETURN_URL'),
+    ];
+});
+
+    Route::post('/handle-payment', [PaymentController::class, 'handlePayment'])->name('handlePayment');
+
+    Route::post('/paynow', [PaymentController::class, 'paynow'])->name('paynow');
+    Route::post('/payment-on-delivery', [PaymentController::class, 'paymentOnDelivery'])->name('payment-on-delivery');
+    Route::get('/paynow/result', [PaymentController::class, 'result'])->name('paynow.result');
+    Route::get('/paynow/return', [PaymentController::class, 'return'])->name('paynow.return');
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -79,12 +109,12 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::put('/admin/category/update', [AdminController::class, 'update_category'])->name('admin.category_update');
     Route::delete('/admin/category/{id}/delete', [AdminController::class, 'delete_category'])->name('admin.category_delete');
     //products routes
+    
     Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
     Route::get('/admin/product/add', [AdminController::class, 'add_product'])->name('admin.product_add');
     Route::get('/admin/product/{id}/edit', [AdminController::class, 'edit_product'])->name('admin.product_edit');
-    // Route::get('/admin/product/{id}/view', [AdminController::class, 'view_product'])->name('admin.product_view');
+    
     Route::post('/admin/product/store', [AdminController::class, 'store_product'])->name('admin.product.store');
-
     Route::put('/admin/product/update', [AdminController::class, 'update_product'])->name('admin.product.update');
     Route::delete('/admin/product/{id}/delete', [AdminController::class, 'delete_product'])->name('admin.product.delete');
 
@@ -97,7 +127,10 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('admin.promotion_delete'); // Delete promotion
     Route::get('/admin/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('admin.promotion_edit'); // Edit promotion
     Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update'); // Update promotion
+    
     Route::post('/admin/promotions', [PromotionController::class, 'store'])->name('promotions.store');
 
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+
+
 });

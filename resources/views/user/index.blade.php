@@ -37,6 +37,7 @@
                                                 <i class="fa fa-eye"></i> View
                                             </a>
                                         </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>

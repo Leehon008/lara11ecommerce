@@ -1332,21 +1332,16 @@ function pureFadeOut(e) {
   });
 
   $('.shopping-cart .btn-checkout').off('click').on('click', function() {
-      e.preventDefault();
-      var form = $(this).closest('form');
-      form.submit();
+    window.location.href='./shop_checkout.html';
   });
 
   $('.checkout-form .btn-checkout').off('click').on('click', function() {
-   // window.location.href='./shop_order_complete.html';
-     // e.preventDefault();
-      var form = $(this).closest('form');
-      form.submit();
+    window.location.href='./shop_order_complete.html';
   });
 
-  // document.querySelector('.js-show-register').addEventListener('click', function(e) {
-  //   document.querySelector(this.getAttribute("href")).click();
-  // });
+  document.querySelector('.js-show-register').addEventListener('click', function(e) {
+    document.querySelector(this.getAttribute("href")).click();
+  });
 
   $('button.js-add-wishlist, a.add-to-wishlist').off('click').on('click', function() {
     if($(this).hasClass("active"))

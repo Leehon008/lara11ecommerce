@@ -29,8 +29,9 @@
         </div>
 
       </div>
-      <div class="mw-930">
-        <img src="assets/images/bfc-location.png" alt="BFC Contact Details" class=" img-fluid mb-5">
+      <div class="mx-auto mb-5">
+        <!--<img src="assets/images/bfc-location.png" alt="BFC Contact Details" class=" img-fluid mb-5">-->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15176.38451321488!2d31.052985!3d-18.0207419!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x193199357c6b8de1%3A0xb6dcf6042a34655b!2sBest%20For%20Creative%20Pvt%20Ltd!5e0!3m2!1sen!2szw!4v1731489383475!5m2!1sen!2szw" width="1200" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </section>
   </main>

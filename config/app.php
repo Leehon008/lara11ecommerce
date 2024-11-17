@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'name' => 'Best For Creative',
+   /* 'name' => env('APP_NAME', 'Best_For_Creative'),*/
+      'name' => 'Best For Creative',
 
     /*
     |--------------------------------------------------------------------------
@@ -28,11 +29,12 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    /*
+    
     /*  Paynow integration credentials */
     'paynow_ID' => env('PAYNOW_INTEGRATION_ID'),
     'paynow_key' => env('PAYNOW_INTEGRATION_KEY'),
     /*
-
     |--------------------------------------------------------------------------
     | Application Debug Mode
     |--------------------------------------------------------------------------

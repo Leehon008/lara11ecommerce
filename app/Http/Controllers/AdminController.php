@@ -243,18 +243,19 @@ class AdminController extends Controller
         return redirect()->route('admin.categories')->with('status', 'Category with id ' . $category->id . '  has been deleted successfully');
     }
 
-    public function products()
-    {
-        $products = Product::orderby('id', 'Desc')->paginate(10);
-        return view('admin.products', compact('products'));
-    }
+    
 
     public function promotions()
     {
         $promotions = Promotion::paginate(10);
         return view('admin.promotions', compact('promotions'));
     }
-
+    
+    public function products()
+    {
+        $products = Product::orderby('id', 'Desc')->paginate(10);
+        return view('admin.products', compact('products'));
+    }
     public function add_product()
     {
         // Selecting 'id', 'name', and 'price' columns from the brands table to get both name and price of each design
@@ -283,86 +284,85 @@ class AdminController extends Controller
     }
 
     public function update_product(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'short_description' => 'required',
-            'image' => 'mimes:png,jpg,jpeg,svg,heic|max:5500',
-            'description' => 'required',
-            'regular_price' => 'required',
-            'sale_price' => 'nullable',
-            'SKU' => 'required',
-            'stock_status' => 'required',
-            'featured' => 'required',
-            'quantity' => 'required',
-            'brand_id' => 'required',
-            'category_id' => 'required',
-            'slug' => 'required|unique:categories,slug,' . $request->id,
-        ]);
+{
+    // Log::info('Update product request received', $request->all());
 
-        $product = Product::find($request->id);
+    $request->validate([
+        'name' => 'required|max:100',
+        'short_description' => 'required',
+      
+        'regular_price' => 'required|numeric',
+        'sale_price' => 'nullable|numeric',
+        
+        'featured' => 'required|boolean',
+
+        'brand_id' => 'required|exists:brands,id',
+        
+        'slug' => 'required|unique:products,slug,' . $request->id,
+        'image' => 'nullable|mimes:png,jpg,jpeg,svg,heic|max:5500',
+        'images' => 'nullable|array',
+        'images.*' => 'mimes:jpeg,png,jpg,svg,heic|max:5500',
+    ]);
+
+    try {
+        $product = Product::findOrFail($request->id);
+
         $product->name = $request->name;
         $product->slug = Str::slug($request->name);
         $product->short_description = $request->short_description;
-        $product->description = $request->description;
+
         $product->regular_price = $request->regular_price;
         $product->sale_price = $request->sale_price;
-        $product->SKU = $request->SKU;
-        $product->stock_status = $request->stock_status;
+
         $product->featured = $request->featured;
-        $product->quantity = $request->quantity;
+
         $product->brand_id = $request->brand_id;
-        $product->category_id = $request->category_id;
+
 
         $current_timestamp = Carbon::now()->timestamp;
 
         if ($request->hasFile('image')) {
-            if (File::exists(public_path('uploads/products') . '/' . $product->image)) {
-                File::delete(public_path('uploads/products') . '/' . $product->image);
-            }
-            if (File::exists(public_path('uploads/products/thumbnails') . '/' . $product->image)) {
-                File::delete(public_path('uploads/products/thumbnails') . '/' . $product->image);
+            if (File::exists(public_path('uploads/products/' . $product->image))) {
+                File::delete(public_path('uploads/products/' . $product->image));
             }
 
             $image = $request->file('image');
             $imageName = $current_timestamp . '.' . $image->extension();
-            $this->GenerateProductThumbnailImage($image, $imageName);
+            $image->move(public_path('uploads/products'), $imageName);
             $product->image = $imageName;
         }
 
-        $gallery_arr = array();
-        $gallery_images = "";
-        $counter = 1;
-
         if ($request->hasFile('images')) {
-            foreach (explode(',', $product->images) as $oFile) {
-                if (File::exists(public_path('uploads/products') . '/' . $oFile)) {
-                    File::delete(public_path('uploads/products') . '/' . $oFile);
-                }
-                if (File::exists(public_path('uploads/products/thumbnails') . '/' . $oFile)) {
-                    File::delete(public_path('uploads/products/thumbnails') . '/' . $oFile);
+            if ($product->images) {
+                foreach (explode(',', $product->images) as $oldImage) {
+                    if (File::exists(public_path('uploads/products/' . $oldImage))) {
+                        File::delete(public_path('uploads/products/' . $oldImage));
+                    }
                 }
             }
 
-            $allowedFileExtension = ['jpeg', 'png', 'jpg','svg','heic'];
-            $files = $request->file('images');
-            foreach ($files as $file) {
-                $gExtension = $file->getClientOriginalExtension();
-                $gCheck = in_array($gExtension, $allowedFileExtension);
-                if ($gCheck) {
-                    $gFileName = $current_timestamp . '-' . $counter . '.' . $gExtension;
-                    $this->GenerateProductThumbnailImage($file, $gFileName);
-                    array_push($gallery_arr, $gFileName);
-                    $counter = $counter + 1;
-                }
+            $gallery_arr = [];
+            foreach ($request->file('images') as $key => $file) {
+                $gFileName = $current_timestamp . '-' . ($key + 1) . '.' . $file->extension();
+                $file->move(public_path('uploads/products'), $gFileName);
+                $gallery_arr[] = $gFileName;
             }
-            $gallery_images = implode(',', $gallery_arr);
-            $product->images = $gallery_images;
+            $product->images = implode(',', $gallery_arr);
         }
 
         $product->save();
+
+        // Log::info('Product updated successfully', ['product_id' => $product->id]);
+
         return redirect()->route('admin.products')->with('status', 'Product with id ' . $product->id . ' has been updated successfully!!');
+    } catch (\Exception $e) {
+        Log::error('Failed to update product: ' . $e->getMessage());
+
+        return redirect()->back()->with('error', 'Failed to update product. Please try again.');
     }
+}
+
+
 
     public function store_product(Request $request)
     {

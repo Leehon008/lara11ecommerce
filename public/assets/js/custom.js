@@ -10,7 +10,7 @@ function prevTab(tabId) {
 // Delivery fees for different locations
 document.addEventListener("DOMContentLoaded", function () {
     const locations = [
-        { name: "Own Delivery", fee: 230 },
+        { name: "Own Delivery", fee: 0 },
         { name: "Harare", fee: 0 },
         { name: "Chitungwiza", fee: 0 },
         { name: "Bulawayo", fee: 390 },
@@ -76,8 +76,13 @@ document.addEventListener("DOMContentLoaded", function () {
         { name: "Filabusi", fee: 340 },
     ]; 
 
-    let locationSelect = document.getElementById("delivery-location");
-    let feeDisplay = document.getElementById("location-fee"); 
+    $('#delivery-location').change(function() {
+        const selectedLocation = $(this).val();
+        const deliveryFee = locations.find(location => location.name === selectedLocation).fee;
+        $('#delivery_fee').val(deliveryFee); // add hidden input field
+    });
+    const locationSelect = document.getElementById("delivery-location");
+    const feeDisplay = document.getElementById("delivery_fee"); 
 
         // Populate dropdown
      locations.forEach((location) => {
@@ -109,28 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event listener for dropdown selection change
     locationSelect.addEventListener("change", console.log('current fee: $',fee));
-
-      
-    function extractAmount(text) {
-        // Check if the input is a string
-        if (typeof text !== 'string') {
-            console.error('Input must be a string');
-            return null; // Return null if the input is not a string
-        }
-
-        const regex = /\$([\d,]+)/; // Matches dollar amounts
-        const match = text.match(regex); // Get the matched amount
-
-        if (match) {
-            return parseFloat(match[1].replace(/,/g, '')); // Return the amount as a float
-        }
-
-        return null; // Return null if no match is found
-    }
-
-    // Example usage 
-    let amount2 = extractAmount(feeDisplay.textContent); 
-    console.log('fee for deli: ',amount2);  
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -154,12 +137,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 serviceSection.innerHTML = `
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label for="input-width-${serviceId}" class="form-label">Width (m)</label>
+                            <label for="input-width-${serviceId}" class="form-label">Width (meters)</label>
                             <input type="number" step="0.01" id="input-width-${serviceId}" name="services[${serviceId}][width]" class="form-control" placeholder="Enter width" required>
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="input-height-${serviceId}" class="form-label">Height (m)</label>
+                            <label for="input-height-${serviceId}" class="form-label">Height (meters)</label>
                             <input type="number" step="0.01" id="input-height-${serviceId}" name="services[${serviceId}][height]" class="form-control" placeholder="Enter height" required>
                         </div>
 
@@ -189,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 document.getElementById("service-details").appendChild(serviceSection);
 
-                fetch(`/quotation/get-brands/${serviceId}`)
+                fetch(`/public/quotation/get-brands/${serviceId}`)
                     .then((response) => response.json())
                     .then((brands) => {
                         const brandSelect = document.getElementById(`select-brand-${serviceId}`);
@@ -220,8 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         const totalPriceInput = document.getElementById(`total-price-${serviceId}`);
                         
                         
-                        let feeDisplay = document.getElementById("location-fee"); 
-                       
+                        const feeDisplay = document.getElementById("delivery_fee"); 
+                        
+                        console.log('fee for delivery: ',feeDisplay);   
                         
                         
                         widthInput.addEventListener("input", calculateTotal);

@@ -26,20 +26,20 @@
                                 <label for="user-fullname" class="form-label">Full Name or Company Name *</label>
                                 <input id="user-fullname" name="user-fullname"
                                     class="form-control form-control-md form-control_gray" required
-                                    value="{{ Auth::user()->name }} {{ Auth::user()->surname }}" />
+                                    value="" />
                             </div>
                             <div class="row">
                                 <div class="form-label-fixed mb-4 col-md-4">
                                     <label for="user-phone" class="form-label">Phone Number *</label>
                                     <input id="user-phone" name="user-phone"
                                         class="form-control form-control-md form-control_gray" required
-                                        value="{{ Auth::user()->mobile }}" />
+                                        value="" />
                                 </div>
                                 <div class="form-label-fixed mb-4 col-md-8">
                                     <label for="user-email" class="form-label">Email address *</label>
                                     <input id="user-email" name="user-email"
                                         class="form-control form-control-md form-control_gray" required
-                                        value="{{ Auth::user()->email }}" />
+                                        value="" />
                                 </div>
                             </div>
                             <div class="form-group">

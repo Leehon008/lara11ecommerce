@@ -88,6 +88,9 @@
                         <a href="{{ url('/services') }}" class="navigation__link">Services</a>
                     </li>
                     <li class="navigation__item">
+                        <a href="{{ url('/designs') }}" class="navigation__link">Designs</a>
+                    </li>
+                    <li class="navigation__item">
                         <a href="{{ route('shop.index') }}" class="navigation__link">Shop</a>
                     </li>
                     <li class="navigation__item">
@@ -164,7 +167,10 @@
                         <a href="{{ url('/services') }}" class="navigation__link">Services</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="{{ route('shop.index') }}" class="navigation__link">Shop</a>
+                        <a href="{{ url('/designs') }}" class="navigation__link">Designs</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a href="{{ route('shop.index') }}" class="navigation__link">Shop Online</a>
                     </li>
                     <li class="navigation__item">
                         <a href="{{ url('/contact-us') }}" class="navigation__link">Contact</a>

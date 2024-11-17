@@ -111,51 +111,47 @@
         </div>
 
         <div class="shop-list flex-grow-1">
-            <div class="swiper-container js-swiper-slider slideshow slideshow_small slideshow_split" data-settings='{
-            "autoplay": {
-              "delay": 5000
-            },
-            "slidesPerView": 1,
-            "effect": "fade",
-            "loop": true,
-            "pagination": {
-              "el": ".slideshow-pagination",
-              "type": "bullets",
-              "clickable": true
-            }
-          }'>
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-
-                        @foreach($promotions as $promotion)
-                        <div class="swiper-slide">
-                            <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
-                                <div class="slide-split_text position-relative d-flex align-items-center" style="background-color: #f5e6e0;">
-                                    <div class="slideshow-text container p-3 p-xl-5 mb-5">
-                                        <h2 class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            {{ $promotion->promo_heading }} <br />
-
-                                        </h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">{{ $promotion->promo_description }}</p>
-                                    </div>
-                                </div>
-                                <div class="slide-split_media position-relative">
-                                    <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="{{ asset($promotion->image) }}" width="630" height="450" alt="{{ $promotion->promo_heading }}" class="slideshow-bg__img object-fit-cover" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
+        
+        <div class="swiper-container js-swiper-slider slideshow slideshow_small slideshow_split" data-settings='{
+    "autoplay": {
+      "delay": 5000
+    },
+    "slidesPerView": 1,
+    "effect": "fade",
+    "loop": true,
+    "pagination": {
+      "el": ".slideshow-pagination",
+      "type": "bullets",
+      "clickable": true
+    }
+  }'>
+    <div class="swiper-wrapper">
+        @foreach($promotions as $promotion)
+        <div class="swiper-slide">
+            <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
+                <div class="slide-split_text position-relative d-flex align-items-center" style="background-color: #f5e6e0;">
+                    <div class="slideshow-text container p-3 p-xl-5 mb-5">
+                        <h2 class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
+                            {{ $promotion->promo_heading }} <br />
+                        </h2>
+                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">{{ $promotion->promo_description }}</p>
                     </div>
                 </div>
-
-                <div class="container p-3 p-xl-5">
-                    <div class="slideshow-pagination d-flex align-items-center position-absolute bottom-0 mb-4 pb-xl-2">
+                <div class="slide-split_media position-relative">
+                    <div class="slideshow-bg" style="background-color: #f5e6e0;">
+                        <img loading="lazy" src="{{ asset($promotion->image) }}" width="630" height="450" alt="{{ $promotion->promo_heading }}" class="slideshow-bg__img object-fit-cover" />
                     </div>
-
                 </div>
             </div>
+        </div>
+        @endforeach
+    </div>
+    
+    <div class="container p-3 p-xl-5">
+        <div class="slideshow-pagination d-flex align-items-center position-absolute bottom-0 mb-4 pb-xl-2"></div>
+    </div>
+</div>
+
 
             <div class="mb-3 pb-2 pb-xl-3"></div>
 
