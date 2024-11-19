@@ -96,13 +96,13 @@ class CartController extends Controller
 
                 $order = Order::create([
                     'user_id' => $user->id, //logged in user
-                    'paynowreference' => $statusData['paynowreference'],
-                    'reference' => $statusData['reference'],
+                    'paynowreference' => $statusData['reference'],
+                    'reference' => 'Ref-'.$statusData['paynowreference'],
                     'amount' => $amount,
                     'subTotal' => $subTotal,
                     'tax' => $tax,
-                    'status' => $statusData['status'],
-                    'payment_method'=>$wallet,
+                    'status' => 'pending',
+                    'payment_method'=>'delivery',
                     'pollurl' => $statusData['pollurl'],
                     'cart_items' => json_encode($cartItemsData) // Store cart items as a JSON string
                 ]);
@@ -116,7 +116,7 @@ class CartController extends Controller
             session()->put('cart_items', $items);
             session()->put('test_msg', $testMsg);
             Cart::destroy();
-            return redirect()->route('order.confirm');
+            return redirect()->route('cart.order.confirmation');
         } else { 
             session()->put('test_msg', 'Transaction failed: ' . $statusResponse->errors());
             return redirect()->route('cart.index');
@@ -131,10 +131,20 @@ class CartController extends Controller
     public function showOrderConfirmation()
     {
         // Retrieve the session data
-        $order = session()->get('order');
-        $items = session()->get('cart_items');
-        $testMsg = session()->get('test_msg'); 
-        return view('order_confirmation', compact('order', 'items', 'testMsg'));
+        // $order = session()->get('order');
+        // $items = session()->get('cart_items');
+        // $testMsg = session()->get('test_msg'); 
+        // return view('order_confirmation', compact('order', 'items', 'testMsg'));
+        return view('order_confirmation');
+    }
+    public function failed_order()
+    {
+        // Retrieve the session data
+        // $order = session()->get('order');
+        // $items = session()->get('cart_items');
+        // $testMsg = session()->get('test_msg'); 
+        // return view('order_confirmation', compact('order', 'items', 'testMsg'));
+        return view('failed-order');
     }
 
 }

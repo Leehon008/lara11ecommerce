@@ -68,8 +68,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/process-payment', [CartController::class, 'store_payment'])->name('cart.process_payment');
     
     Route::get('/cart/order', [CartController::class, 'index'])->name('cart.index1');
-    Route::get('/cart/order_confirmation', [CartController::class, 'showOrderConfirmation'])->name('cart.order.confirmation');
-    Route::get('/cart/order-confirm', [CartController::class, 'showOrderConfirmation'])->name('order.confirm');
+    Route::get('/cart/order-confirmation', [CartController::class, 'showOrderConfirmation'])->name('cart.order.confirmation');
+    Route::get('/cart/failed-order', [CartController::class, 'failed_order'])->name('cart.order.failed');
+    // Route::get('/cart/order-confirm', [CartController::class, 'showOrderConfirmation'])->name('order.confirm');
     Route::get('/user/order/{id}/view', [UserController::class, 'view_order'])->name('user.order.view');
     
     

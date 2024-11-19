@@ -27,15 +27,8 @@
                     </span>
                 </a>
             </div>
-        <form method="POST" action="{{ route('handlePayment') }}">
-            @csrf
-            <!-- Form fields -->
-            <button type="submit">Submit Payment</button>
-        </form>
 
-           
-
-            <form method="POST" class="form-new-product form-style-1" action="{{ route('paynow') }}">
+            <form method="POST" class="form-new-product form-style-1" action="{{ route('paynow') }}" id="checkoutForm">
                 @csrf
                 <div class="checkout-form">
                     <div class="billing-info__wrapper">
@@ -43,42 +36,33 @@
                             <div class="col-6">
                                 <h4>SHIPPING DETAILS</h4>
                             </div>
-                            <div class="col-6">
-                            </div>
                         </div>
-
                         <div class="row mt-5">
                             <div class="col-md-4">
                                 <div class="form-floating my-3">
                                     <input type="text" class="form-control" name="name" required=""
-                                        value="{{ Auth::user()->name }} &nbsp; {{ Auth::user()->surname }}" readonly>
+                                        value="{{ Auth::user()->name }} {{ Auth::user()->surname }}" readonly>
                                     <label for="name">Full Name *</label>
-                                    <span class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-floating my-3">
                                     <input type="text" class="form-control" name="phone" required=""
                                         value="{{ Auth::user()->mobile }}" readonly>
-                                    <!--value="0771111111"-->
                                     <label for="phone">Phone Number *</label>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <div class="form-floating my-3">
-                                    <input type="email" id="email" class="form-control" name="email" class=""
-                                        placeholder="Email" value="{{ Auth::user()->email }}" readonly>
-                                    <label for="city">Email Address *</label>
-                                    <span class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-floating my-3">
-                                    <input type="text" class="form-control" name="city" value="harare" required>
+                                    <input type="email" id="email" class="form-control" name="email"
+                                        value="{{ Auth::user()->email }}" readonly>
+                                    <label for="email">Email Address *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating my-3">
+                                    <input type="text" class="form-control" name="city" value="Harare" required>
                                     <label for="city">Town / City *</label>
-                                    <span class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -86,10 +70,8 @@
                                     <input type="text" class="form-control" name="address" required=""
                                         value="{{ Auth::user()->address }}">
                                     <label for="address">Address *</label>
-                                    <span class="text-danger"></span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="checkout__totals-wrapper">
@@ -107,12 +89,8 @@
                                         <tbody>
                                             @foreach ($items as $item)
                                                 <tr>
-                                                    <td>
-                                                        {{ $item->name }}
-                                                    </td>
-                                                    <td align="right">
-                                                        {{ $item->subTotal() }}
-                                                    </td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td align="right">{{ $item->subTotal() }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -123,7 +101,6 @@
                                                 <th>Subtotal</th>
                                                 <td>${{ Cart::instance('cart')->subTotal() }}</td>
                                             </tr>
-                                            
                                             <tr>
                                                 <th>VAT</th>
                                                 <td>${{ Cart::instance('cart')->tax() }}</td>
@@ -136,61 +113,113 @@
                                     </table>
                                 @else
                                     <div class="row">
-                                        <div class="col-md-12 text-center pt-2 tp-2">
+                                        <div class="col-md-12 text-center pt-2">
                                             <p>No Items Found in your Cart</p>
                                         </div>
                                     </div>
                                 @endif
                             </div>
                             <div class="checkout__payment-methods">
-
                                 @if ($items->count() > 0)
                                     <div class="form-check">
                                         <input class="form-check-input form-check-input_fill" type="radio"
-                                            name="checkout_payment_method" id="checkout_payment_method_1" checked>
+                                            name="checkout_payment_method" id="checkout_payment_method_1" value="pay_online"
+                                            checked>
                                         <label class="form-check-label" for="checkout_payment_method_1">
                                             Pay Online
-                                            <p class="option-detail">
-                                                Use Paynow to process payments
-                                            </p>
+                                            <p class="option-detail">Use Paynow to process payments</p>
                                         </label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input form-check-input_fill" type="radio"
-                                            name="checkout_payment_method" id="pay_on_delivery" >
-                                        <label class="form-check-label" for="checkout_payment_method_1">
+                                            name="checkout_payment_method" id="pay_on_delivery" value="pay_on_delivery">
+                                        <label class="form-check-label" for="pay_on_delivery">
                                             Pay On Delivery
-                                            <!--<p class="option-detail">-->
-                                            <!--    Pay on delivery-->
-                                            <!--</p>-->
                                         </label>
                                     </div>
                                     <div class="policy-text">
-                                        Your personal data will be used to process your order. <a
-                                            href="#" target="_blank">Privacy Policy</a>.
+                                        Your personal data will be used to process your order. <a href="#"
+                                            target="_blank">Privacy
+                                            Policy</a>.
                                     </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12 text-center pt-2 tp-2">
-                                   
-                                    <button type="submit" class="btn btn-primary btn-checkout">PLACE ORDER</button>
-                                </div>
-                            </div>
-
                                 @else
+                                    <div class="alert alert-warning mb-5">
+                                        Your cart is empty. Please add items to proceed with checkout.
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Buttons -->
+                            @if ($items->count() > 0)
                                 <div class="row">
-                                    <div class="col-md-12 text-center pt-2 tp-2">
-                                        <a href="{{ route('shop.index') }}" class="btn btn-info">Shop Now</a>
+                                    <div class="col-md-12 text-center pt-2">
+                                        <button type="button" class="btn btn-primary btn-checkout"
+                                            id="placeOrderButton">PLACE ORDER</button>
                                     </div>
                                 </div>
-                                @endif
-
+                            @endif
                         </div>
                     </div>
                 </div>
             </form>
         </section>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutForm = document.getElementById('checkoutForm');
+            const payOnDeliveryRadio = document.getElementById('pay_on_delivery');
+            const payOnlineRadio = document.getElementById('checkout_payment_method_1');
+            const placeOrderButton = document.getElementById('placeOrderButton');
 
+            if (checkoutForm && payOnDeliveryRadio && payOnlineRadio && placeOrderButton) {
+                function updateFormAction() {
+                    if (payOnDeliveryRadio.checked) {
+                        checkoutForm.action = "{{ route('cart.process_payment') }}";
+                        console.log('Form action is now:', checkoutForm.action);
+                    } else if (payOnlineRadio.checked) {
+                        checkoutForm.action = "{{ route('paynow') }}";
+                    }
+                }
+
+                payOnDeliveryRadio.addEventListener('change', updateFormAction);
+                payOnlineRadio.addEventListener('change', updateFormAction);
+
+                placeOrderButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    console.log('Submitting form to:', checkoutForm.action);
+
+                    // Submit the form using fetch
+                    // fetch(checkoutForm.action, {
+                    //         method: checkoutForm.method, // Ensure the method matches
+                    //         body: new FormData(checkoutForm),
+                    //         headers: {
+                    //             'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    //         },
+                    //     })
+                    //     .then(response => {
+                    //         if (!response.ok) {
+                    //             throw new Error(`HTTP error! Status: ${response.status}`);
+                    //         }
+                    //         return response.json();
+                    //     })
+                    //     .then(data => {
+                    //         console.log('Success:', data);
+                    //         alert('Order placed successfully!');
+                    //         // Optional: Redirect to another page
+                    //     })
+                    //     .catch(error => { 
+                    //         console.error('Error submitting the form:', error);
+                    //     });
+                    // Submit the form programmatically
+                    checkoutForm.submit();
+                });
+
+                // Initialize action on page load
+                updateFormAction();
+            } else {
+                console.error('Required elements were not found.');
+            }
+        });
+    </script>
 @endsection

@@ -20,3 +20,4 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home3/gowgdiyg/public_html/design.bestforcreative.co.zw/public/index.php on line 14
+[17-Nov-2024 04:32:02 UTC] PHP Fatal error:  Cannot use Surfsidemedia\Shoppingcart\Facades\Cart as Cart because the name is already in use in /home3/gowgdiyg/public_html/design.bestforcreative.co.zw/app/Http/Controllers/PaymentController.php on line 13
