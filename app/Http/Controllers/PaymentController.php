@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Str; 
 
 class PaymentController extends Controller
 {
@@ -90,15 +91,13 @@ class PaymentController extends Controller
 //     }
 // }
 
+
 public function paymentOnDelivery(Request $request)
 {
     try {
-        // Check if the cart is empty
         if (Cart::instance('cart')->count() == 0) {
             return redirect()->back()->with('error', 'Your cart is empty. Please add items to place an order.');
         }
-
-        // Log cart details for debugging
         logger('Cart Contents:', Cart::instance('cart')->content()->toArray());
 
         // Calculate subtotal and tax
@@ -106,28 +105,30 @@ public function paymentOnDelivery(Request $request)
         $tax = $subtotal * 0.15; // Assuming 15% tax
         $totalAmount = $subtotal + $tax;
 
+        $paymentReference = $this->generateUniqueReference();
+
         // Create an order with payment method as 'Pay on Delivery'
-        // $order = Order::create([
-        //     'user_id' => auth()->id(),
-        //     'amount' => $totalAmount,
-        //     'status' => 'Pending',
-        //     'payment_method' => 'Pay On Delivery',
-        //     'subTotal' => $subtotal,
-        //     'tax' => $tax,
-        //     'cart_items' => Cart::instance('cart')->count(),
-        // ]);
-           $order = Order::create([
-                'user_id' => $user->id, 
-                'paynowreference' => $statusData['paynowreference'],
-                'reference' => 'Ref-'.$statusData['reference'],
-                'amount' => $amount,
-                'subTotal' => $subTotal,
-                'tax' => $tax,
-                'status' => 'pending',
-                'payment_method'=>'delivery',
-                'pollurl' => $statusData['pollurl'],
-                'cart_items' => json_encode($cartItemsData) // Store cart items as a JSON string
-            ]);
+        $cartItems = Cart::instance('cart')->content()->map(function ($item) {
+            return [
+                'name' => $item->name,
+                'qty' => $item->qty,
+                'price' => $item->price, 
+                'subtotal' => $item->subTotal(),
+            ];
+        });
+
+        $order = Order::create([
+            'user_id' => auth()->id(), // Logged-in user
+            'paynowreference' => $paymentReference, // Use the generated payment reference
+            'reference' => 'Ref-' . $paymentReference, // Add prefix to the reference
+            'amount' => $totalAmount,
+            'subTotal' => $subtotal,
+            'tax' => $tax,
+            'status' => 'pending',
+            'payment_method' => 'delivery',
+            'pollurl' => '', // Add your poll URL logic if needed
+            'cart_items' => json_encode($cartItems) // Store cart items as a JSON string
+        ]);
 
         // Save each cart item as an order item
         foreach (Cart::instance('cart')->content() as $item) {
@@ -141,10 +142,11 @@ public function paymentOnDelivery(Request $request)
 
         // Clear the cart after saving
         Cart::instance('cart')->destroy();
-
-        // Redirect to order confirmation with a success message
-        return redirect()->route('cart.order.confirmation')
-            ->with('success', 'Order placed successfully. Please pay upon delivery.');
+        // Build the message with line breaks
+        $testMsg = 'Payment for ' .'<br>'; 
+        $testMsg .= 'Order '. $order->id .' placed successfully. Please pay upon delivery.' ; 
+        // Redirect to order confirmation with a success message        
+        return view('order_confirmation',compact('order','cartItems','testMsg')); 
     } catch (\Exception $e) {
         // Log the error for debugging
         logger('Error in paymentOnDelivery:', ['error' => $e->getMessage()]);
@@ -153,6 +155,19 @@ public function paymentOnDelivery(Request $request)
             ->with('error', 'An unexpected error occurred: ' . $e->getMessage());
     }
 }
+
+/**
+ * Generate a unique payment reference.
+ * @return string
+ */
+public function generateUniqueReference()
+{ 
+    $timestamp = date('YmdHis');
+    $randomNumber = rand(1000, 9999);
+    $reference = strtoupper('PAY-' . $timestamp . '-' . $randomNumber);
+    return $reference;
+}
+
 
 
 
