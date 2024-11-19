@@ -85,7 +85,7 @@ class CartController extends Controller
 
             // Check if the polling request was successful
             if ($statusResponse->status() == 'sent') {  
-                $cartItemsData = $items->map(function ($item) {
+                $cartItems = $items->map(function ($item) {
                     return [
                         'name' => $item->name,
                         'qty' => $item->qty,
@@ -104,7 +104,7 @@ class CartController extends Controller
                     'status' => 'pending',
                     'payment_method'=>'delivery',
                     'pollurl' => $statusData['pollurl'],
-                    'cart_items' => json_encode($cartItemsData) // Store cart items as a JSON string
+                    'cart_items' => json_encode($cartItems) // Store cart items as a JSON string
                 ]);
 
                 // Build the message with line breaks
@@ -116,7 +116,8 @@ class CartController extends Controller
             session()->put('cart_items', $items);
             session()->put('test_msg', $testMsg);
             Cart::destroy();
-            return redirect()->route('cart.order.confirmation');
+            return view('order_confirmation',compact('order','cartItems','testMsg'));
+            // return redirect()->route('cart.order.confirmation');
         } else { 
             session()->put('test_msg', 'Transaction failed: ' . $statusResponse->errors());
             return redirect()->route('cart.index');

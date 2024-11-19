@@ -174,7 +174,7 @@
             if (checkoutForm && payOnDeliveryRadio && payOnlineRadio && placeOrderButton) {
                 function updateFormAction() {
                     if (payOnDeliveryRadio.checked) {
-                        checkoutForm.action = "{{ route('cart.process_payment') }}";
+                        checkoutForm.action = "{{ route('payment-on-delivery') }}";
                         console.log('Form action is now:', checkoutForm.action);
                     } else if (payOnlineRadio.checked) {
                         checkoutForm.action = "{{ route('paynow') }}";
@@ -186,32 +186,7 @@
 
                 placeOrderButton.addEventListener('click', function(e) {
                     e.preventDefault();
-
                     console.log('Submitting form to:', checkoutForm.action);
-
-                    // Submit the form using fetch
-                    // fetch(checkoutForm.action, {
-                    //         method: checkoutForm.method, // Ensure the method matches
-                    //         body: new FormData(checkoutForm),
-                    //         headers: {
-                    //             'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
-                    //         },
-                    //     })
-                    //     .then(response => {
-                    //         if (!response.ok) {
-                    //             throw new Error(`HTTP error! Status: ${response.status}`);
-                    //         }
-                    //         return response.json();
-                    //     })
-                    //     .then(data => {
-                    //         console.log('Success:', data);
-                    //         alert('Order placed successfully!');
-                    //         // Optional: Redirect to another page
-                    //     })
-                    //     .catch(error => { 
-                    //         console.error('Error submitting the form:', error);
-                    //     });
-                    // Submit the form programmatically
                     checkoutForm.submit();
                 });
 
