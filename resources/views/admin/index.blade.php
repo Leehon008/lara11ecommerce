@@ -15,7 +15,7 @@
                                     </div>
                                     <div>
                                         <div class="body-text mb-2">Total Orders</div>
-                                        <h4>3</h4>
+                                        <h4>{{ $orderCount }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                     </div>
                                     <div>
                                         <div class="body-text mb-2">Pending Orders</div>
-                                        <h4>3</h4>
+                                        <h4>{{ $pendingOrdersCount }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                     </div>
                                     <div>
                                         <div class="body-text mb-2">Todays Orders</div>
-                                        <h4>4</h4>
+                                        <h4>{{ $todayOrdersCount }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +114,6 @@
                             </div>
                         </div>
 
-
                         <div class="wg-chart-default">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
@@ -122,16 +121,13 @@
                                         <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        
                                         <div class="body-text mb-2">Categories</div>
                                         <h4>{{ $categoryCount }}</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="wg-box">
@@ -193,62 +189,70 @@
                 <div class="wg-box">
                     <div class="flex items-center justify-between">
                         <h5>Recent orders</h5>
-                        <div class="dropdown default">
-                            <a class="btn btn-secondary dropdown-toggle" href="#">
-                                <span class="view-all">View all</span>
-                            </a>
-                        </div>
                     </div>
                     <div class="wg-table table-all-user">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered">
+                            <table id="ordersTable" class="table table-striped table-bordered table-responsive">
                                 <thead>
                                     <tr>
-                                        <th style="width: 80px">OrderNo</th>
-                                        <th>Name</th>
-                                        <th class="text-center">Phone</th>
+                                        <th class="text-center">Order ID</th>
+                                        <th class="text-center">Order Date</th>
+                                        <th class="text-center">Order By</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Total Items</th>
+                                        <th class="text-center">Payment Method</th>
                                         <th class="text-center">Subtotal</th>
                                         <th class="text-center">Tax</th>
-                                        <th class="text-center">Total</th>
-
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Order Date</th>
-                                        <th class="text-center">Total Items</th>
-                                        <th class="text-center">Delivered On</th>
-                                        <th></th>
+                                        <th class="text-center">Total Amount</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td class="text-center">Tinotenda Mangadza</td>
-                                        <td class="text-center">0779013009</td>
-                                        <td class="text-center">$172.00</td>
-                                        <td class="text-center">$36.12</td>
-                                        <td class="text-center">$208.12</td>
-
-                                        <td class="text-center">ordered</td>
-                                        <td class="text-center">2024-07-11 00:54:14</td>
-                                        <td class="text-center">2</td>
-                                        <td></td>
-                                        <td class="text-center">
-                                            <a href="#">
-                                                <div class="list-icon-function view-icon">
-                                                    <div class="item eye">
-                                                        <i class="icon-eye"></i>
+                                    @foreach ($orders as $order)
+                                        <tr>
+                                            <td align="center">{{ $order->id }}</td>
+                                            <td>{{ $order->created_at->format('d M, Y') }}</td>
+                                            <td>{{ $order->user->name }} {{ $order->user->surname }}</td>
+                                            <td style="background-color: rgb(38, 144, 38)">
+                                                {{ ucfirst($order->status) }}</td>
+                                            <td>{{ $order->cart_item_count }}</td>
+                                            <td>{{ $order->payment_method }}</td>
+                                            <td align="center">${{ number_format(floatval($order->amount), 2) }}</td>
+                                            <td align="center">${{ number_format(floatval($order->subTotal), 2) }}</td>
+                                            <td align="center">${{ number_format(floatval($order->tax), 2) }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.order.view', ['id' => $order->id]) }}">
+                                                    <div class="list-icon-function view-icon">
+                                                        <div class="item eye">
+                                                            <i class="icon-eye"></i>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
+
+                            <!-- Pagination links -->
+                            <div class="pagination-wrapper mt-4">
+                                {{ $orders->links() }} <!-- This will generate pagination links -->
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#ordersTable').DataTable({
+                                        "paging": true,
+                                        "searching": true,
+                                        "info": true,
+                                        "ordering": true
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 @endsection

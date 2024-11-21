@@ -9,6 +9,7 @@ use Intervention\Image\Laravel\Facades\Image;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Order;
 use App\Models\Promotion;
 use App\Models\User;
 use Carbon\Carbon;
@@ -21,15 +22,32 @@ class AdminController extends Controller
         $brandCount = Brand::count();
         $categoryCount = Category::count();
         $productCount = Product::count();
-
-        return view('admin.index', compact('userCount', 'brandCount', 'categoryCount', 'productCount'));
+        $orderCount = Order::count();
+        $todayOrdersCount = Order::whereDate('created_at', Carbon::today())->count();
+        $pendingOrdersCount = Order::where('status', 'pending')->count();
+        $orders = Order::orderby('id', 'Desc')->paginate(10); 
+        foreach ($orders as $order) { 
+            if ($order->cart_items) { 
+                $cartItems = json_decode($order->cart_items, true); 
+                $order->cart_item_count = count($cartItems);  
+            } else {
+                $order->cart_item_count = 0;  
+            }
+        }  
+        return view('admin.index', compact('userCount','orders', 'orderCount','todayOrdersCount','pendingOrdersCount','brandCount', 'categoryCount', 'productCount'));
     }
 
+    public function view_order($id)
+    {
+        $order = Order::find($id);
+        return view('admin.order_view', compact('order'));
+    }
     public function users()
     {
         $users = User::paginate(10);
         return view('admin.users', compact('users'));
     }
+
     public function quotations()
     {
         return view('admin.quotations');

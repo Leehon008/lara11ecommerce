@@ -41,11 +41,7 @@
                     </div>
                     <div class="checkout__totals-wrapper">
                         <div class="checkout__totals">
-
-                            <h3>Order Details</h3>
-                            {{-- <p>Payment Poll URL: <a style="font-style: italic;color:rgb(35, 149, 39)"
-                                    href="{{ $order->pollurl }}" target="_blank">{{ $order->pollurl }}</a>
-                            </p> --}}
+                            <h3>Order Details by {{ $order->user->name }} {{ $order->user->surname }} </h3>
                             @php
                                 $cartItems = json_decode($order->cart_items, true);
                             @endphp

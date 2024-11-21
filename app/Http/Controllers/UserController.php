@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index()
     { 
-        $orders = Order::orderby('id', 'Desc')->paginate(10); 
+        $orders = Order::where('user_id', Auth::id())->orderby('id', 'Desc')->paginate(10); 
         foreach ($orders as $order) { 
             if ($order->cart_items) { 
                $cartItems = json_decode($order->cart_items, true); 
@@ -23,7 +24,9 @@ class UserController extends Controller
 
      public function view_order($id)
     {
-        $order = Order::find($id);
+        $order = Order::where('id', $id)
+                  ->where('user_id', Auth::id())
+                  ->firstOrFail();
         return view('user.order_view', compact('order'));
     }
 
