@@ -7,7 +7,8 @@ You need to run the git commands to version control the source code
 > git clone repo_name
 - then to patch updates you can use the old way to push changes ``git push`` but for this we have many repo destinations so its wise to use the `cmd` function in the shell file below using git bash or any terminal
 > ./push_all.sh 
-
+> 
+![alt text](image.png)
 this updates the repos in the shell file
 
 ## Cron Job to clear cache
@@ -19,7 +20,7 @@ Log in to cPanel: Access your cPanel account provided by your hosting service.
 Navigate to the Cron Jobs Section: In the cPanel dashboard, locate the Cron Jobs icon under the Advanced section.
 
 Add a New Cron Job:
-
+![alt text](image-3.png)
 Email Notification: (Optional) If you want email notifications for the cron job execution, ensure an email is set under Email in the Cron Jobs section. Otherwise, add >/dev/null 2>&1 at the end of the command to suppress notifications.
 
 Set the Time Interval: Use the predefined intervals or custom settings to specify when the cron job should run. For example:
@@ -31,3 +32,5 @@ Command to Execute: Enter the command to run the `Artisan` command:
 
 `bash  `
 > /usr/local/bin/php /home3/gowgdiyg/public_html/artisan optimize:clear >> /home3/gowgdiyg/cron-log.txt 2>&1
+
+![alt text](image-1.png)
