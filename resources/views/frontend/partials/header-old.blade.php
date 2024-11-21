@@ -14,42 +14,47 @@
             </a>
         </div>
 
-        
-                @guest
-                    <div class="header-tools__item hover-container">
-                        <a href="{{ route('login') }}" class="header-tools__item">
-                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <use href="#icon_user" />
-                            </svg>
-                        </a>
-                    </div>
-                @else
-                    <div class="header-tools__item hover-container">
-                        <a href="{{ Auth::user()->utype === 'ADM' ? route('admin.index') : route('user.index') }}"
-                            class="header-tools__item">
-                            <span class="pr-6px"> {{ Auth::user()->name }}</span>
-                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <use href="#icon_user" />
-                            </svg>
-                        </a>
-                    </div>
+        <div id="preload" class="preload-container">
+            <div class="preloading">
+                <span></span>
+            </div>
+        </div>
 
-                @endguest
-
-
-                <a href="{{ route('cart.index') }}" class="header-tools__item header-tools__cart">
+        @guest
+            <div class="header-tools__item hover-container">
+                <a href="{{ route('login') }}" class="header-tools__item">
                     <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_cart" />
+                        <use href="#icon_user" />
                     </svg>
-                    @if (Cart::instance('cart')->content()->count() > 0)
-                        <span class="cart-amount d-block position-absolute js-cart-items-count">
-                            {{ Cart::instance('cart')->content()->count() }}
-                        </span>
-                    @endif
                 </a>
+            </div>
+        @else
+            <div class="header-tools__item hover-container">
+                <a href="{{ Auth::user()->utype === 'ADM' ? route('admin.index') : route('user.index') }}"
+                    class="header-tools__item">
+                    <span class="pr-6px"> {{ Auth::user()->name }}</span>
+                    <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <use href="#icon_user" />
+                    </svg>
+                </a>
+            </div>
+
+        @endguest
+
+
+        <a href="{{ route('cart.index') }}" class="header-tools__item header-tools__cart">
+            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <use href="#icon_cart" />
+            </svg>
+            @if (Cart::instance('cart')->content()->count() > 0)
+                <span class="cart-amount d-block position-absolute js-cart-items-count">
+                    {{ Cart::instance('cart')->content()->count() }}
+                </span>
+            @endif
+        </a>
     </div>
 
     <!-- Mobile Header -->
@@ -152,6 +157,11 @@
                 </a>
             </div>
 
+            <div id="preload" class="preload-container">
+                <div class="preloading">
+                    <span></span>
+                </div>
+            </div>
             <nav class="navigation">
                 <ul class="navigation__list list-unstyled d-flex">
                     <li class="navigation__item">

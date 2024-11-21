@@ -2,6 +2,12 @@
 @section('content')
     <main class="pt-90">
         <div class="mb-4 pb-4"></div>
+
+        <div id="preload" class="preload-container">
+            <div class="preloading">
+                <span></span>
+            </div>
+        </div>
         <section class="my-account container">
             <h3 class="page-title text-center">{{ Auth::user()->name }} {{ Auth::user()->surname }}</h3>
             <div class="row">
