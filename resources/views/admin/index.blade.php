@@ -217,9 +217,9 @@
                                                 {{ ucfirst($order->status) }}</td>
                                             <td>{{ $order->cart_item_count }}</td>
                                             <td>{{ $order->payment_method }}</td>
-                                            <td align="center">${{ number_format(floatval($order->amount), 2) }}</td>
                                             <td align="center">${{ number_format(floatval($order->subTotal), 2) }}</td>
                                             <td align="center">${{ number_format(floatval($order->tax), 2) }}</td>
+                                            <td align="center">${{ number_format(floatval($order->amount), 2) }}</td>
                                             <td>
                                                 <a href="{{ route('admin.order.view', ['id' => $order->id]) }}">
                                                     <div class="list-icon-function view-icon">
