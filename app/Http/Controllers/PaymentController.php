@@ -31,6 +31,7 @@ class PaymentController extends Controller
 
     public function paynow(Request $request)
 {
+    logger('starting paynow ...',['success:' => '$request']);
     try {
         $userEmail = auth()->user()->email; // Get authenticated user email
         $items = Cart::instance('cart')->content(); // Get cart items
@@ -38,59 +39,31 @@ class PaymentController extends Controller
 
         $paynow = new Paynow(
             env('PAYNOW_INTEGRATION_ID'),
-            env('PAYNOW_INTEGRATION_KEY'),
-            env('PAYNOW_RESULT_URL'),
-            env('PAYNOW_RETURN_URL')
+            env('PAYNOW_INTEGRATION_KEY'), 
+            route('home.index'), // Success URL
+            route('home.index') 
+            // env('PAYNOW_RESULT_URL'),
+            // env('PAYNOW_RETURN_URL')
         );
 
-        $payment = $paynow->createPayment('Order-' . uniqid(), $userEmail);
-
-        
-        $payment->add('test code', $amount);
-        
-
+        $payment = $paynow->createPayment('Order-' . uniqid(), $userEmail);        
+        $payment->add('test code', $amount);     
         $response = $paynow->send($payment);
 
+        logger('paynow response....',['error:' => $response]);
         if ($response->success()) {
+            Cart::instance('cart')->destroy(); 
+            session()->flush();
             return redirect()->away($response->redirectUrl());
         } else {
+           logger('testing paynow failed',['error:' => '$e->getMessage()']);
             return redirect()->back()->with('error', 'Payment initiation failed.');
         }
     } catch (\Exception $e) {
+        logger('paynow failed with ',['error:' => $e->getMessage()]);
         return redirect()->back()->with('error', 'An unexpected error occurred: ' . $e->getMessage());
     }
 }
-
-
-
-//     public function paymentOnDelivery(Request $request)
-// {
-//     try {
-//         // Create an order without a payment
-//         $order = Order::create([
-//             'user_id' => auth()->id(),
-//             'amount' => Cart::instance('cart')->total(),
-//             'status' => 'Pending',
-//             'payment_method' => 'Pay On Delivery',
-//         ]);
-
-//         foreach (Cart::instance('cart')->content() as $item) {
-//             OrderItem::create([
-//                 'order_id' => $order->id,
-//                 'product_id' => $item->id,
-//                 'quantity' => $item->qty,
-//                 'price' => $item->price,
-//             ]);
-//         }
-
-//         Cart::instance('cart')->destroy(); // Clear the cart
-
-//         return redirect()->route('cart.order.confirmation')->with('success', 'Order placed successfully. Please pay upon delivery.');
-//     } catch (\Exception $e) {
-//         return redirect()->back()->with('error', 'An unexpected error occurred: ' . $e->getMessage());
-//     }
-// }
-
 
 public function paymentOnDelivery(Request $request)
 {
@@ -141,7 +114,8 @@ public function paymentOnDelivery(Request $request)
         }
 
         // Clear the cart after saving
-        Cart::instance('cart')->destroy();
+        Cart::instance('cart')->destroy(); 
+        session()->flush();
         // Build the message with line breaks
         $testMsg = 'Payment for ' .'<br>'; 
         $testMsg .= 'Order '. $order->id .' placed successfully. Please pay upon delivery.' ; 
